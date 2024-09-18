@@ -1,0 +1,30 @@
+
+// Register user
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+    "name": "Christian",
+    "surname": "Olivieri",
+    "password": "12345",
+    "email": "garico@hotmail.it",
+    "age": 31,
+    "avatar": null
+}
+###
+
+// Login user
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "garico@hotmail.it",
+    "password": "12345"
+}
+
+###
+
+// Me
+
+GET http://localhost:5000/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZWIxNDc3ZDhjZTRiNjNjZjE4ODdlNyIsImlhdCI6MTcyNjY4MjU0MSwiZXhwIjoxNzI2NzY4OTQxfQ.8S2LwiFDG5HK4h-0o8EWYZVJUf8yp6rN4rhCPqsLG-4

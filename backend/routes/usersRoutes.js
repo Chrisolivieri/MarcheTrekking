@@ -1,5 +1,6 @@
 import express from "express";
 import * as usersController from "../controllers/users.controller.js";
+import uploadCloudinary from "../middlewares/uploadCloudinary.js";
 
 const router = express.Router();
 
@@ -17,5 +18,8 @@ router.put("/:id", usersController.updateUser);
 
 // Delete an existing user
 router.delete("/:id", usersController.deleteUser);
+
+// Update avatar
+router.patch("/:id/avatar", uploadCloudinary.single("avatar"), usersController.updateAvatar);
 
 export default router

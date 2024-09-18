@@ -63,3 +63,22 @@ export const deleteUser = async (req, res) => {
     res.status(400).send({ error: "User not deleted" });
   }
 };
+
+export const updateAvatar = async (req, res) => {
+  const id = req.params.id;
+  const userData = { avatar: req.file.path };
+
+  try {
+    const updateUser = await Users.findByIdAndUpdate(id, userData, {
+      new: true,
+    });
+
+    if (!updateUser) {
+      return res.status(404).send({ error: "User not found" });
+    }
+
+    return res.send(updateUser);
+  } catch (err) {
+    res.status(400).send({ error: "User not updated" });
+  }
+};

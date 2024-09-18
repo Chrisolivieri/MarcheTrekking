@@ -1,0 +1,43 @@
+// Create a new trekking
+
+POST http://localhost:5000/trekkingRoutes
+Content-Type: application/json
+
+{
+    "name": "Montagna",
+    "description": "Montagna dei sibillini",
+    "image": null,
+    "distance": 10,
+    "duration": 5,
+    "heightDifference": 10,
+    "difficulty": "hard",
+    "position": [10, 10]
+}
+###
+
+// Get all trekking Routes
+
+GET http://localhost:5000/trekkingRoutes
+
+###
+
+// Get one Trekking Route
+
+GET http://localhost:5000/trekkingRoutes/66eaf0a5aade4864d61646bb
+
+###
+
+// Update an existing Trekking Route
+
+PUT http://localhost:5000/trekkingRoutes/66eaf0a5aade4864d61646bb
+Content-Type: application/json
+
+{
+    "duration": 20
+}
+
+###
+
+// Delete an existing Trekking Route
+
+DELETE http://localhost:5000/trekkingRoutes/66eaf0a5aade4864d61646bb

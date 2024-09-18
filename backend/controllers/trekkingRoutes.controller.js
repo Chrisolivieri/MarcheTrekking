@@ -1,4 +1,4 @@
-import TrekkingRoutes from "../models/trekkingRoutes.schema.js";
+import TrekkingRoutes from "../models/trekkigRoutes.schema.js";
 
 export const getTrekkingRoutes = async (req, res) => {
   const routes = await TrekkingRoutes.find({}).sort({ name: 1 });
@@ -17,7 +17,8 @@ export const getTrekkingRoute = async (req, res) => {
 };
 
 export const createTrekkingRoute = async (req, res) => {
-  const newTrekkingRoute = new TrekkingRoutes(req.body);
+  const trekkingData = req.body;
+  const newTrekkingRoute = new TrekkingRoutes(trekkingData);
 
   try {
     const savedTrekkingRoute = await newTrekkingRoute.save();
@@ -27,7 +28,7 @@ export const createTrekkingRoute = async (req, res) => {
   }
 };
 
-export const upadteTrekkingRoute = async (req, res) => {
+export const updateTrekkingRoute = async (req, res) => {
   const id = req.params.id;
   const updateTrekkingRoute = req.body;
 
@@ -53,5 +54,18 @@ export const deleteTrekkingRoute = async (req, res) => {
     return res.send(deletedTrekkingRoute);
   } catch (err) {
     res.status(400).send({ error: "Trekking route not deleted" });
+  }
+};
+
+export const updateImage = async (req, res) => {
+  const id = req.params.id;
+  const imageToUpdate = { image: req.file.path };
+
+  try {
+    await TrekkingRoutes.findByIdAndUpdate(id, imageToUpdate, { new: true });
+    const updatedTrekkingRoute = await TrekkingRoutes.findById(id);
+    return res.send(updatedTrekkingRoute);
+  } catch (err) {
+    res.status(400).send({ error: "Trekking route not updated" });
   }
 };
