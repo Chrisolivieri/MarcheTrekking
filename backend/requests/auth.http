@@ -4,10 +4,10 @@ POST http://localhost:5000/register
 Content-Type: application/json
 
 {
-    "name": "Christian",
-    "surname": "Olivieri",
+    "name": "Giovanni",
+    "surname": "Garico",
     "password": "12345",
-    "email": "garico@hotmail.it",
+    "email": "prova@hotmail.it",
     "age": 31,
     "avatar": null
 }

@@ -1,6 +1,7 @@
 import User from "../models/users.schema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import trasport from "../config/mailService.js"
 
 export const register = async (req, res) => {
   const user = await User.findOne({ email: req.body.email }); // check if user already exists
@@ -18,6 +19,20 @@ export const register = async (req, res) => {
   });
 
   const userCreated = await newUser.save();
+
+  const sendMail = await User.findById(userCreated._id)
+  if (!sendMail) {
+    return res.status(404).send({ error: "User not found" });
+  }
+
+  await trasport.sendMail({
+    from: "marcheTrekking@axample.com",
+    to: sendMail.email,
+    subject: "Registrazione avvecenuta con successo",
+    text: "Ti sei registrato correttamente al sito",
+    html: "<b>Registrato</b>"
+  })
+
   res.send(userCreated);
 };
 
@@ -48,3 +63,7 @@ export const login = async (req, res) => {
 export const me = (req, res) => {
   return res.send(req.authUser);
 };
+
+export const callBackGoogle = (req,res)=>{
+  res.redirect(`${process.env.FRONTEND_URL}?token=${req.user.jwtToken}`)
+}

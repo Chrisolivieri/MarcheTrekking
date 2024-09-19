@@ -8,10 +8,14 @@ import trekkingRoutes from "./routes/trekkingRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import cors from "cors";
 import  endpoints from "express-list-endpoints";
+import passport from "passport";
+import googleStrategy from "./config/passport.config.js";
 
 const port = process.env.PORT || 5000;
 const host = process.env.HOST 
 const server = express();
+
+passport.use("google", googleStrategy);
 
 await mongoose.connect(process.env.MONGODB_CONNECTION_URI).then(() => {
   console.log("MongoDB connected");
@@ -30,5 +34,5 @@ server.use("/", authRoutes)
 
 server.listen(port, () =>{
   console.log(`Server running on ${host}:${port}`);
-  console.table(endpoints(server))
+ // console.table(endpoints(server))
 })

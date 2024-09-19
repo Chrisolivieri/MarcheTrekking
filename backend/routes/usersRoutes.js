@@ -1,6 +1,7 @@
 import express from "express";
 import * as usersController from "../controllers/users.controller.js";
 import uploadCloudinary from "../middlewares/uploadCloudinary.js";
+import auth from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -14,12 +15,12 @@ router.get("/:id", usersController.getUser);
 router.post("/", usersController.createUser);
 
 // Update an existing user
-router.put("/:id", usersController.updateUser);
+router.put("/:id", auth, usersController.updateUser);
 
 // Delete an existing user
-router.delete("/:id", usersController.deleteUser);
+router.delete("/:id", auth, usersController.deleteUser);
 
 // Update avatar
-router.patch("/:id/avatar", uploadCloudinary.single("avatar"), usersController.updateAvatar);
+router.patch("/:id/avatar", auth, uploadCloudinary.single("avatar"), usersController.updateAvatar);
 
 export default router
