@@ -28,7 +28,7 @@ export const register = async (req, res) => {
   await trasport.sendMail({
     from: "marcheTrekking@axample.com",
     to: sendMail.email,
-    subject: "Registrazione avvecenuta con successo",
+    subject: "Registrazione avvenuta con successo",
     text: "Ti sei registrato correttamente al sito",
     html: "<b>Registrato</b>"
   })

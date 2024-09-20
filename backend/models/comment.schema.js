@@ -1,8 +1,8 @@
-import { Schema, SchemaType, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const commentSchema = new Schema(
   {
-    author: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "Users",
     },
@@ -12,7 +12,7 @@ const commentSchema = new Schema(
       maxLenght: 300,
       trim: true,
     },
-    trekkigRoutes: {
+    trekkingRoutes: {
       type: Schema.Types.ObjectId,
       ref: "TrekkigRoutes",
     },
