@@ -26,12 +26,12 @@ export const login = async (loginFormValue) => {
   return data;
 };
 
-export const register = async (registerFormValue) => {
+export const register = async (registerFormValue,avatar) => {
   const formData = new FormData();
   formData.append("avatar", avatar);
   formData.append("name", registerFormValue.name);
   formData.append("surname", registerFormValue.surname);
-  formData.append("email", registerFormValue.email),
+  formData.append("email", registerFormValue.email);
     formData.append("password", registerFormValue.password);
 
   const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
@@ -49,7 +49,7 @@ export const me = async () => {
     },
   });
   if (!response.ok) {
-    throw new Error(res.status);
+    throw new Error(response.status);
   }
   const data = await response.json();
   return data;

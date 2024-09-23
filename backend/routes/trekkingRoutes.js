@@ -15,7 +15,6 @@ router.get("/:id", trekkingRoutesController.getTrekkingRoute);
 // Create a new Trekking Route
 router.post(
   "/",
-  auth,
   uploadCloudinary.single("image"),
   trekkingRoutesController.createTrekkingRoute
 );
