@@ -33,13 +33,22 @@ export const register = async (registerFormValue,avatar) => {
   formData.append("surname", registerFormValue.surname);
   formData.append("email", registerFormValue.email);
     formData.append("password", registerFormValue.password);
-
+try {
   const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
     method: "POST",
     body: formData,
   });
   const data = await response.json();
+  if (response.status === 400) {  
+    alert("Errore: utente già registrato con questa email.");
+    return;
+  }
+  alert("registrato")
   return data;
+} catch (error) {
+  alert("errore")
+}
+  
 };
 
 export const me = async () => {

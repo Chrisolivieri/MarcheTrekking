@@ -1,5 +1,4 @@
 import React from "react";
-import HomePage from "../homePage/HomePage";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
