@@ -17,11 +17,11 @@ export const getTrekkingRoute = async (req, res) => {
 };
 
 export const createTrekkingRoute = async (req, res) => {
-  const trekkingData = req.body;
-  if (req.file.path) {
-    trekkingData.image = req.file.path;
-  }
-  const newTrekkingRoute = new TrekkingRoutes(trekkingData);
+  // const trekkingData = req.body;
+  const coverPath = req.file ? req.file.path : null;
+  
+  const newTrekkingRoute = new TrekkingRoutes({
+    ...req.body,image:coverPath});
   try {
     const savedTrekkingRoute = await newTrekkingRoute.save();
     return res.status(201).send(savedTrekkingRoute);

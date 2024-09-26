@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./NavBar.css";
-import { Container, Image } from "react-bootstrap";
+import { Button, Container, Image } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import MyProfile from "../user/MyProfile";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContextProvider";
 const Navbar = () => {
+  const {token,setToken} = useContext(UserContext)
+  const [logOut, setLogOut] = useState(false)
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+    setLogOut(true);
+    alert("Sei uscito");
+    navigate("/");
+  };
   return (
     <>
       <Container fluid className="navBar">
@@ -38,7 +49,7 @@ const Navbar = () => {
           <Dropdown.Item href="#/action-4">
             <div className="menu-item">
               <i className="bi bi-box-arrow-right"></i>
-              <p>Logout</p>
+              <Button onClick={handleLogout}>Logout</Button>
             </div>
           </Dropdown.Item>
         </DropdownButton>

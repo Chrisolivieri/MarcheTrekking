@@ -14,41 +14,76 @@ export const loadTrekkingRoute = async (params) => {
   return data;
 };
 
-export const login = async (loginFormValue) => {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify(loginFormValue),
-  });
-  const data = await response.json();
-  return data;
+export const newTrekkingRoute = async (formValue, image) => {
+  const formData = new FormData();
+  formData.append("name", formValue.name);
+  formData.append("description", formValue.description);
+  formData.append("image", image);
+  formData.append("distance", formValue.distance);
+  formData.append("duration", formValue.duration);
+  formData.append("heightDifference", formValue.heightDifference);
+  formData.append("difficulty", formValue.difficulty);
+  formData.append("latitude", formValue.latitude);
+  formData.append("longitude", formValue.longitude);
+  
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/trekkingRoutes`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await response.json();
+    if(response.status === 400){
+     return alert("percorso non inserito");
+    }
+    alert("percorso inserito");
+    return data;
+  } catch (error) {
+    alert(error);
+  }
 };
 
-export const register = async (registerFormValue,avatar) => {
+export const login = async (loginFormValue) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(loginFormValue),
+    });
+    const data = await response.json();
+    alert("loggato");
+    return data;
+  } catch (error) {
+    alert("errore");
+  }
+};
+
+export const register = async (registerFormValue, avatar) => {
   const formData = new FormData();
   formData.append("avatar", avatar);
   formData.append("name", registerFormValue.name);
   formData.append("surname", registerFormValue.surname);
   formData.append("email", registerFormValue.email);
-    formData.append("password", registerFormValue.password);
-try {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
-    method: "POST",
-    body: formData,
-  });
-  const data = await response.json();
-  if (response.status === 400) {  
-    alert("Errore: utente già registrato con questa email.");
-    return;
+  formData.append("password", registerFormValue.password);
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    if (response.status === 400) {
+      alert("Errore: utente già registrato con questa email.");
+      return;
+    }
+    alert("registrato");
+    return data;
+  } catch (error) {
+    alert("errore");
   }
-  alert("registrato")
-  return data;
-} catch (error) {
-  alert("errore")
-}
-  
 };
 
 export const me = async () => {

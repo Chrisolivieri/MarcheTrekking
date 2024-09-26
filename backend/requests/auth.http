@@ -4,12 +4,13 @@ POST http://localhost:5000/register
 Content-Type: application/json
 
 {
-    "name": "Giovanni",
+    "name": "Christian",
     "surname": "Garico",
-    "password": "12345",
-    "email": "prova@hotmail.it",
+    "password": "123",
+    "email": "ciao@email.it",
     "age": 31,
-    "avatar": null
+    "avatar": null,
+    "role": "admin"
 }
 ###
 
@@ -18,8 +19,8 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email": "garico@hotmail.it",
-    "password": "12345"
+    "email": "ciao@example.com",
+    "password": "123"
 }
 
 ###

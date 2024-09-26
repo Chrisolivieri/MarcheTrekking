@@ -6,9 +6,10 @@ Content-Type: application/json
 {
     "name": "Giovanni",
     "surname": "Rossi",
-    "email": "jjjj@example.com",
+    "email": "ciao@example.com",
+    "role": "admin",
     "age": 31,
-    "password": "123456789",
+    "password": "123",
     "avatar": "https://picsum.photos/200/300"
 }
 ###
