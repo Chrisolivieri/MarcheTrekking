@@ -51,7 +51,7 @@ export const login = async (req, res) => {
   jwt.sign(
     { id: user._id },
     process.env.JWT_SECRET,
-    { expiresIn: "1d" },
+    { expiresIn: "2h" },
     (err, jwtToken) => {
       if (err) return res.status(500).send({ error: "Failed to login" });
 

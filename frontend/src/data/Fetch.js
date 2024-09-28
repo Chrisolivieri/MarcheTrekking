@@ -23,8 +23,11 @@ export const newTrekkingRoute = async (formValue, image) => {
   formData.append("duration", formValue.duration);
   formData.append("heightDifference", formValue.heightDifference);
   formData.append("difficulty", formValue.difficulty);
-  formData.append("latitude", formValue.latitude);
-  formData.append("longitude", formValue.longitude);
+  formData.append("startLat", formValue.startLat);
+  formData.append("endLat", formValue.endLat);
+  formData.append("startLng", formValue.startLng);
+  formData.append("endLng", formValue.endLng);
+
   
   try {
     const response = await fetch(
@@ -36,12 +39,12 @@ export const newTrekkingRoute = async (formValue, image) => {
     );
     const data = await response.json();
     if(response.status === 400){
-     return alert("percorso non inserito");
+     return console.log("percorso non inserito");
     }
-    alert("percorso inserito");
+    
     return data;
   } catch (error) {
-    alert(error);
+    console.log(error);
   }
 };
 
@@ -58,7 +61,9 @@ export const login = async (loginFormValue) => {
     alert("loggato");
     return data;
   } catch (error) {
-    alert("errore");
+    if (error.status === 401) {
+      alert("errore");
+    }
   }
 };
 

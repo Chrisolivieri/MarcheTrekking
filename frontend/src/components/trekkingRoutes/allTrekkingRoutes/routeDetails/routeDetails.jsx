@@ -25,12 +25,13 @@ const RouteDetails = () => {
 
   return (
     <>
-      
-    <h1>ciao</h1>
-    <h1>{route.name}</h1>
-      <Map />
-    
-    </>
+    <h1>{route.name ? route.name : "Loading..."}</h1>
+    {route.startLat && route.endLat && route.startLng && route.endLng ? (
+      <Map startLat={route.startLat} endLat={route.endLat} startLng={route.startLng} endLng={route.endLng}  />
+    ) : (
+      <p>Loading map...</p>
+    )}
+  </>
   );
 };
 export default RouteDetails;

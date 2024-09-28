@@ -1,50 +1,13 @@
-.navBar {
-  background-color: #e6a466;
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 1rem 1rem;
-  color: white;
-}
-.navBar img {
-  width: 50px;
-  height: 50px;
+.avatarNav {
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
+  margin-right: 5px;
 }
 
-.menu-dialog hr {
-  width: 250px;
-  border: 1px solid #373738;
-}
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  color: rgb(170, 166, 166);
-  font-size: 18px;
-  font-weight: 500;
-  height: 50px;
-  cursor: pointer;
-}
-.menu-item:hover {
-  color: black;
-}
-.member-item {
-  display: flex;
-  align-items: center;
-  padding: 0.7rem;
-  gap: 15px;
-  color: rgb(170, 166, 166);
-  font-size: 18px;
-  font-weight: 500;
-  height: 50px;
-  cursor: pointer;
-  border-radius: 10px;
-}
-.member-item img {
-  width: 45px;
-  height: 45px;
+.logoNav {
+  width: 8rem;
+  height: auto;
   border-radius: 50%;
-  object-fit: cover;
+  margin-right: 5px;
 }

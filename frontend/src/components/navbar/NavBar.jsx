@@ -1,15 +1,32 @@
 import React, { useContext, useState } from "react";
 import "./NavBar.css";
-import { Button, Container, Image } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import MyProfile from "../user/MyProfile";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContextProvider";
-const Navbar = () => {
-  const {token,setToken} = useContext(UserContext)
-  const [logOut, setLogOut] = useState(false)
-  const navigate = useNavigate()
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+const NavBar = () => {
+  const { token, setToken } = useContext(UserContext);
+  const [logOut, setLogOut] = useState(false);
+  const navigate = useNavigate();
+  const handleHomeClick = () => {
+    navigate("/");
+  };
+
+  const registerClick = () => {
+    navigate("/registerLogin");
+  };
+
+  const createRouteClick = () => {
+    navigate("/newTrekkingRoute");
+  };
+
+  const handleRoutesClick = () => {
+    navigate("/trekkingRoutes");
+  };
+
+  const handleMyProfileClick = () => {
+    navigate("/me");
+  }
+  const { userInfo } = useContext(UserContext);
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
@@ -19,66 +36,46 @@ const Navbar = () => {
   };
   return (
     <>
-      <Container fluid className="navBar">
-        <DropdownButton title={<Image src="https://picsum.photos/200/300" />}>
-          <Dropdown.Item className="menu">
-            <Link
-              to="/me"
-              className="menu-item"
-              
-            >
-              <div className="menu-item">
-                <i className="bi bi-person"></i>
-                <p>Il mio profilo</p>
-              </div>
-            </Link>
-          </Dropdown.Item>
-          <Dropdown.Item href="#/action-2">
-            <div className="menu-item">
-              <i className="bi bi-gear"></i>
-              <p>Account</p>
-            </div>
-          </Dropdown.Item>
-          <Dropdown.Item href="#/action-3">
-            <hr />
-            <div className="menu-item">
-              <i className="bi bi-box"></i>
-              <p>Products</p>
-            </div>
-          </Dropdown.Item>
-          <Dropdown.Item href="#/action-4">
-            <div className="menu-item">
-              <i className="bi bi-box-arrow-right"></i>
-              <Button onClick={handleLogout}>Logout</Button>
-            </div>
-          </Dropdown.Item>
-        </DropdownButton>
-      </Container>
-
-      {/* <div className="menu-dialog" id="menu">
-        <div className="menu">
-          <div className="menu-item">
-            <i className="bi bi-person"></i>
-            <p>Il mio profilo</p>
-          </div>
-          <div className="menu-item">
-            <i className="bi bi-gear"></i>
-            <p>Account</p>
-          </div>
-          <hr />
-          <div className="menu-item">
-            <i className="bi bi-box"></i>
-            <p>Products</p>
-          </div>
-          <div className="menu-item">
-            <i className="bi bi-box-arrow-right"></i>
-            <p>Logout</p>
-          </div>
-          <hr />
-        </div>
-      </div> */}
+      <Navbar collapseOnSelect expand="lg">
+        <Container>
+          <Navbar.Brand onClick={handleHomeClick} style={{ cursor: "pointer" }}>
+            <img className="logoNav" src="/logo.png" alt="" />
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link onClick={handleHomeClick}>Home</Nav.Link>
+              <Nav.Link onClick={handleRoutesClick}>Percorsi</Nav.Link>
+            </Nav>
+            <Nav>
+              {token && userInfo && (
+                <NavDropdown
+                  title={
+                    <img className="avatarNav" src={userInfo.avatar} alt="" />
+                  }
+                  id="collapsible-nav-dropdown"
+                >
+                  <NavDropdown.Item onClick={handleMyProfileClick}>
+                    Il mio Profilo
+                  </NavDropdown.Item>
+                  {userInfo?.role === "admin" && (
+                    <NavDropdown.Item onClick={createRouteClick}>
+                      Crea un nuovo sentiero
+                    </NavDropdown.Item>
+                  )}
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Log out
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+              {!token && <Nav.Link onClick={registerClick}>Accedi</Nav.Link>}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     </>
   );
 };
 
-export default Navbar;
+export default NavBar;

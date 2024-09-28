@@ -29,12 +29,19 @@ const trekkigRoutesSchema = new Schema(
       type: String,
       required: true,
     },
-    latitude: {
+    startLat: {
       type: Number,
     },
-    longitude: {
+    endLat: {
       type: Number,
     },
+    startLng: {
+      type: Number,
+    },
+    endLng: {
+      type: Number,
+    },
+
   },
   {
     collection: "trekkigRoutes",

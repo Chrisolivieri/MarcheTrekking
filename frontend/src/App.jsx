@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Navbar from "./components/navbar/NavBar";
+import NavBar from "./components/navbar/NavBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Welcome from "./components/home/welcome/Welcome";
 import MyProfile from "./components/user/MyProfile";
@@ -15,7 +15,7 @@ function App() {
   const { userInfo } = useContext(UserContext);
   return (
     <Router>
-      <Navbar />
+      <NavBar />
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/me" element={<MyProfile />} />
