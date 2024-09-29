@@ -15,7 +15,7 @@ router.get("/:id", trekkingRoutesController.getTrekkingRoute);
 // Create a new Trekking Route
 router.post(
   "/",
-  uploadCloudinary.single("image"),
+  uploadCloudinary.array("images"),
   trekkingRoutesController.createTrekkingRoute
 );
 
@@ -26,12 +26,12 @@ router.put("/:id", auth, trekkingRoutesController.updateTrekkingRoute);
 router.delete("/:id", auth, trekkingRoutesController.deleteTrekkingRoute);
 
 // Update image
-router.patch(
-  "/:id/image",
-  auth,
-  uploadCloudinary.single("image"),
-  trekkingRoutesController.updateImage
-);
+// router.patch(
+//   "/:id/image",
+//   auth,
+//   uploadCloudinary.single("image"),
+//   trekkingRoutesController.updateImage
+// );
 
 // Get all trekking route's comments
 router.get("/:id/comments/", commentController.readAllComments);

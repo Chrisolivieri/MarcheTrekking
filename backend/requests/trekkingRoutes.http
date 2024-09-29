@@ -23,7 +23,7 @@ GET http://localhost:5000/trekkingRoutes
 
 // Get one Trekking Route
 
-GET http://localhost:5000/trekkingRoutes/66eaf0a5aade4864d61646bb
+GET http://localhost:5000/trekkingRoutes/66f92e2c9efe2542cd067e1d
 
 ###
 

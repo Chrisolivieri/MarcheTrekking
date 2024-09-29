@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const trekkigRoutesSchema = new Schema(
+const trekkingRoutesSchema = new Schema(
   {
     name: {
       type: String,
@@ -10,8 +10,9 @@ const trekkigRoutesSchema = new Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
+    images: {
+      type: [String],
+      required: true,
     },
     distance: {
       type: Number,
@@ -29,25 +30,24 @@ const trekkigRoutesSchema = new Schema(
       type: String,
       required: true,
     },
-    startLat: {
-      type: Number,
+    coordinates: {
+      type: [[Number]],
+      required: true,
     },
-    endLat: {
-      type: Number,
+    start: {
+      type: [Number],
+      required: true,
     },
-    startLng: {
-      type: Number,
+    end: {
+      type: [Number],
+      required: true,
     },
-    endLng: {
-      type: Number,
-    },
-
   },
   {
-    collection: "trekkigRoutes",
+    collection: "trekkingRoutes",
   }
 );
 
-const TrekkigRoutes = model("TrekkigRoutes", trekkigRoutesSchema);
+const TrekkingRoutes = model("TrekkingRoutes", trekkingRoutesSchema);
 
-export default TrekkigRoutes;
+export default TrekkingRoutes;

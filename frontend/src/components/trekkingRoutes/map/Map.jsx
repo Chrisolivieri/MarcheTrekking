@@ -1,46 +1,65 @@
 import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import L from "leaflet"; // Assicurati di importare Leaflet
+import L from "leaflet";
 
-export default function Map( {startLat, startLng, endLat, endLng}) {
-  // coordinates for start and end
+
+export default function Map({ start, end, coordinates }) {
+  const trekkingPoints =
+    coordinates && coordinates.length > 0 ? coordinates : []; // route coordinates
+
+  const customMarkerStartIcon = L.icon({
+    iconUrl: "https://i.ibb.co/41Fkm80/start-i4gxfi46poz3-512.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+  });
+
+  const customMarkerEndIcon = L.icon({
+    iconUrl: "https://i.ibb.co/jJKgHZt/finish-9z4a2ijikdi0-512.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+  });
+
   
 
-  // Custom hook per aggiungere il poligono o percorso alla mappa
-  const AddRoute = () => {
-    const map = useMap(); // Accedi all'istanza della mappa
+  // add points to the map
+  const AddRoute = ({ points }) => {
+    // add props points to the map
+    const map = useMap(); 
 
     useEffect(() => {
-      // Definisci il percorso come una linea
-      const route = L.polyline([
-        [startLat, startLng], // Punto di partenza
-        [endLat, endLng],     // Punto di arrivo
-      ], { color: 'blue' }).addTo(map); // Aggiungi colore alla linea
+      // define the polyline layer
+      const route = L.polyline(points, { color: "blue" }).addTo(map); // Aggiungi colore alla linea
 
-      // Pulizia al momento della disinstallazione del componente
+      // zoom to the route
+      map.fitBounds(route.getBounds());
+
+      // remove the polyline layer
       return () => {
         map.removeLayer(route);
       };
-    }, [map]);
+    }, [map, points]);
 
-    return null; // Nessun JSX da rendere
+    return null; 
   };
 
   return (
     <Container>
-      <MapContainer center={[startLat, startLng]} zoom={14} scrollWheelZoom={true}>
+      <MapContainer center={start} zoom={14} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[startLat, startLng]}>
-          <Popup>Inizio del percorso: Rifugio del Monte Sibilla</Popup>
+        <Marker position={start} icon={customMarkerStartIcon} >
+          <Popup>Inizio del percorso: {start}</Popup>
         </Marker>
-        <Marker position={[endLat, endLng]}>
-          <Popup>Fine del percorso: Cima del Monte Sibilla</Popup>
+        <Marker position={end} icon={customMarkerEndIcon}>
+          <Popup>Fine del percorso: {end}</Popup>
+          
         </Marker>
-        <AddRoute /> {/* Includi il custom hook per aggiungere il percorso */}
+        <AddRoute points={trekkingPoints} />
       </MapContainer>
     </Container>
   );

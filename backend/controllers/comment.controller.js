@@ -1,12 +1,12 @@
 import Comments from "../models/comment.schema.js";
 
 export const createComment = async (req, res) => {
-  const trekkigRoutesId = req.params.id;
+  const trekkingRoutesId = req.params.id;
   const commentInfo = req.body;
   try {
     const newComment = new Comments({
       ...commentInfo,
-      trekkingRoutes: trekkigRoutesId,
+      trekkingRoutes: trekkingRoutesId,
     });
     const createdComment = await newComment.save();
     return res.send({ data: createdComment });

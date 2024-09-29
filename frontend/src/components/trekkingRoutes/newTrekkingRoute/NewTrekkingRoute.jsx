@@ -3,7 +3,7 @@ import { Alert, Button, Container, Form } from "react-bootstrap";
 import { newTrekkingRoute } from "../../../data/Fetch";
 
 const NewTrekkingRoute = () => {
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const [formValue, setFormValue] = useState({
     name: "",
     description: "",
@@ -11,12 +11,11 @@ const NewTrekkingRoute = () => {
     duration: "",
     heightDifference: "",
     difficulty: "",
-    startLat: "",
-    startLng: "",
-    endLat: "",
-    endLng: "",
+    start: [""],
+    end: [""],
+    coordinates: [],
   });
-  
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,24 +26,64 @@ const NewTrekkingRoute = () => {
     });
   };
 
-  const handleChangeImage = (event) => {
-    setImage(event.target.files[0]);
+  const handleChangeImages = (event) => {
+    const imageFiles = Array.from(event.target.files);
+    console.log("immagini", imageFiles);
+    setImages(imageFiles);
   };
 
+  const handleAddCoordinate = () => {
+    const newCoordinate = prompt("Inserisci una coppia di coordinate lat,lng:");
+    if (newCoordinate) {
+      const [lat, lng] = newCoordinate
+        .split(",")
+        .map((coord) => parseFloat(coord.trim()));
+      if (!isNaN(lat) && !isNaN(lng)) {
+        setFormValue((prev) => ({
+          ...prev,
+          coordinates: [...prev.coordinates, [lat, lng]],
+        }));
+      } else {
+        setMessage(
+          "Formato delle coordinate non valido. Usa il formato: numero,numero"
+        );
+      }
+    }
+  };
+
+  const handleStartRoute = (event) => {
+    const { name, value } = event.target;
+    const updatedStart = [...formValue.start];
+    updatedStart[name === "startLat" ? 0 : 1] = parseFloat(value);
+    setFormValue({
+      ...formValue,
+      start: updatedStart,
+    });
+  };
+
+  const handleEndRoute = (event) => {
+    const { name, value } = event.target;
+    const updatedEnd = [...formValue.end];
+    updatedEnd[name === "endLat" ? 0 : 1] = parseFloat(value);
+    setFormValue({
+      ...formValue,
+      end: updatedEnd,
+    });
+  };
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent form from submitting
+    event.preventDefault();
     setLoading(true);
     setMessage("");
 
-    // Validation 
-    if (!image || !formValue.name || !formValue.description) {
+    // Validation
+    if (!images || !formValue.name || !formValue.description) {
       setMessage("Compila tutti i campi richiesti.");
       setLoading(false);
       return;
     }
 
     try {
-      const result = await newTrekkingRoute(formValue, image);
+      const result = await newTrekkingRoute(formValue, images);
       setMessage("Percorso inserito con successo!");
     } catch (error) {
       setMessage("Errore durante l'inserimento del percorso.");
@@ -81,11 +120,12 @@ const NewTrekkingRoute = () => {
         </Form.Group>
 
         <Form.Group className="mt-3">
-          <Form.Label>Cover</Form.Label>
+          <Form.Label>Immagini</Form.Label>
           <Form.Control
             type="file"
-            name="image"
-            onChange={handleChangeImage}
+            name="images"
+            multiple
+            onChange={handleChangeImages}
             required
           />
         </Form.Group>
@@ -135,50 +175,67 @@ const NewTrekkingRoute = () => {
         </Form.Group>
 
         <h2>Informazioni relative alla posizione del percorso</h2>
+
         <Form.Group className="mt-3">
-          <Form.Label>Latitudine inizio percorso</Form.Label>
+          <Form.Label>Latitudine Punto di inizio</Form.Label>
           <Form.Control
-            onChange={handleChangeFormValue}
+            onChange={handleStartRoute}
             size="lg"
-            placeholder="Latitudine"
+            placeholder="Latitudine inizio percorso"
             name="startLat"
             required
           />
         </Form.Group>
 
         <Form.Group className="mt-3">
-          <Form.Label>Longitudine inizio percorso</Form.Label>
+          <Form.Label>Longitudine Punto di inizio</Form.Label>
           <Form.Control
-            onChange={handleChangeFormValue}
+            onChange={handleStartRoute}
             size="lg"
-            placeholder="Longitudine"
+            placeholder="Longitudine inizio percorso"
             name="startLng"
             required
           />
         </Form.Group>
 
         <Form.Group className="mt-3">
-          <Form.Label>Latitudine fine percorso</Form.Label>
+          <Form.Label>Latitudine Punto di fine</Form.Label>
           <Form.Control
-            onChange={handleChangeFormValue}
+            onChange={handleEndRoute}
             size="lg"
-            placeholder="Latitudine"
+            placeholder="Latitudine fine percorso"
             name="endLat"
             required
           />
         </Form.Group>
 
         <Form.Group className="mt-3">
-          <Form.Label>Longitudine fine percorso</Form.Label>
+          <Form.Label>Longitudine Punto di fine</Form.Label>
           <Form.Control
-            onChange={handleChangeFormValue}
+            onChange={handleEndRoute}
             size="lg"
-            placeholder="Longitudine"
+            placeholder="Longitudine fine percorso"
             name="endLng"
             required
           />
         </Form.Group>
-        
+
+        <Form.Group className="mt-3">
+          <Form.Label>Coordinate del sentiero</Form.Label>
+          <Button
+            onClick={handleAddCoordinate}
+            variant="secondary"
+            className="mx-2"
+          >
+            Aggiungi Coordinate
+          </Button>
+          <ul>
+            {formValue.coordinates.map((coord, index) => (
+              <li key={index}>{`Lat: ${coord[0]}, Lng: ${coord[1]}`}</li>
+            ))}
+          </ul>
+        </Form.Group>
+
         <Button type="submit" size="lg" variant="dark" disabled={loading}>
           {loading ? "Invio in corso..." : "Invia"}
         </Button>

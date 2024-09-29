@@ -14,21 +14,22 @@ export const loadTrekkingRoute = async (params) => {
   return data;
 };
 
-export const newTrekkingRoute = async (formValue, image) => {
+export const newTrekkingRoute = async (formValue, images) => {
   const formData = new FormData();
   formData.append("name", formValue.name);
   formData.append("description", formValue.description);
-  formData.append("image", image);
   formData.append("distance", formValue.distance);
   formData.append("duration", formValue.duration);
   formData.append("heightDifference", formValue.heightDifference);
   formData.append("difficulty", formValue.difficulty);
-  formData.append("startLat", formValue.startLat);
-  formData.append("endLat", formValue.endLat);
-  formData.append("startLng", formValue.startLng);
-  formData.append("endLng", formValue.endLng);
+  formData.append("start", JSON.stringify(formValue.start));
+  formData.append("end", JSON.stringify(formValue.end));
+  formData.append("coordinates", JSON.stringify(formValue.coordinates));
 
-  
+  images.forEach((image) => {
+    formData.append("images", image);
+  });
+
   try {
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/trekkingRoutes`,
@@ -38,10 +39,10 @@ export const newTrekkingRoute = async (formValue, image) => {
       }
     );
     const data = await response.json();
-    if(response.status === 400){
-     return console.log("percorso non inserito");
+    if (response.status === 400) {
+      return console.log("percorso non inserito");
     }
-    
+
     return data;
   } catch (error) {
     console.log(error);

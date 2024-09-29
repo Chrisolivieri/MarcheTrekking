@@ -1,4 +1,4 @@
-import TrekkingRoutes from "../models/trekkigRoutes.schema.js";
+import TrekkingRoutes from "../models/trekkingRoutes.schema.js";
 
 export const getTrekkingRoutes = async (req, res) => {
   const routes = await TrekkingRoutes.find({}).sort({ name: 1 });
@@ -17,16 +17,26 @@ export const getTrekkingRoute = async (req, res) => {
 };
 
 export const createTrekkingRoute = async (req, res) => {
-  // const trekkingData = req.body;
-  const coverPath = req.file ? req.file.path : null;
-  
+  const imagePaths = req.files ? req.files.map((file) => file.path) : []; // get image paths
+
+  const coordinates = req.body.coordinates ? JSON.parse(req.body.coordinates) : []; // parse coordinates from string to array
+
+  const startCoordinates = JSON.parse(req.body.start);
+  const endCoordinates = JSON.parse(req.body.end);
+
   const newTrekkingRoute = new TrekkingRoutes({
-    ...req.body,image:coverPath});
+    ...req.body,
+    images: imagePaths,
+    start: startCoordinates,
+    end: endCoordinates,
+    coordinates: coordinates,
+  });
+
   try {
     const savedTrekkingRoute = await newTrekkingRoute.save();
     return res.status(201).send(savedTrekkingRoute);
   } catch (err) {
-    res.status(400).send({ error: "Trekking route not created" });
+    return res.status(400).send({ error: "Trekking route not created" });
   }
 };
 
