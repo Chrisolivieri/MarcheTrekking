@@ -14,7 +14,7 @@ const commentSchema = new Schema(
     },
     trekkingRoutes: {
       type: Schema.Types.ObjectId,
-      ref: "trekkingRoutes",
+      ref: "TrekkingRoutes",
     },
   },
   {

@@ -17,7 +17,7 @@ Content-Type: application/json
 
 // Get all trekking Routes
 
-GET http://localhost:5000/trekkingRoutes
+GET http://localhost:5000/trekkingRoutes/?page=1&perPage=15
 
 ###
 

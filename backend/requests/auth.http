@@ -7,7 +7,7 @@ Content-Type: application/json
     "name": "Christian",
     "surname": "Garico",
     "password": "123",
-    "email": "ciao@email.it",
+    "email": "no@email.it",
     "age": 31,
     "avatar": null,
     "role": "admin"

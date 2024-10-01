@@ -1,4 +1,7 @@
-.single-route{
-    width: 40rem;
+.single-route img{
+    border-radius: 50%;
+    width: 25rem; 
+    height: 25rem;
+    object-fit: cover;
+    margin-bottom: 4rem;
 }
- 

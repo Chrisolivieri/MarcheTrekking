@@ -13,11 +13,10 @@ export const register = async (req, res) => {
     surname: req.body.surname,
     email: req.body.email,
     age: req.body.age,
-    avatar: req.file ? req.file.path : null,
+    avatar: req.file ? req.file.path : "https://i.ibb.co/9y7VLt2/Gemini-Generated-Image-mwehk4mwehk4mweh.png",
     password: await bcrypt.hash(req.body.password, 10), // hash password
     verifiedAt: new Date(),
   });
-
   const userCreated = await newUser.save();
 
   const sendMail = await User.findById(userCreated._id)
@@ -51,7 +50,7 @@ export const login = async (req, res) => {
   jwt.sign(
     { id: user._id },
     process.env.JWT_SECRET,
-    { expiresIn: "2h" },
+    { expiresIn: "1d" },
     (err, jwtToken) => {
       if (err) return res.status(500).send({ error: "Failed to login" });
 

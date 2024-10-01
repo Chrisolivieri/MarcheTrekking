@@ -21,10 +21,11 @@ export const readAllComments = async (req, res) => {
       trekkingRoutes: req.params.id,
     })
       .populate("trekkingRoutes", ["title"])
-      .populate("user", ["name", "email"]);
-
+      .populate("user", ["name", "email", "avatar"]);
+    
     return res.send({ data: allComments });
   } catch (err) {
+    console.log(err);
     res.status(400).send({ error: "something went wrong" });
   }
 };

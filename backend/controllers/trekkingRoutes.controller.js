@@ -1,7 +1,11 @@
 import TrekkingRoutes from "../models/trekkingRoutes.schema.js";
 
 export const getTrekkingRoutes = async (req, res) => {
-  const routes = await TrekkingRoutes.find({}).sort({ name: 1 });
+  const page = req.query.page || 1
+  const perPage = req.query.perPage || 5
+  const routes = await TrekkingRoutes.find({}).sort({ name: 1 })
+  .limit(perPage)
+  .skip((page - 1) * perPage);
   res.send(routes);
 };
 

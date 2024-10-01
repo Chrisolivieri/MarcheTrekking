@@ -1,6 +1,6 @@
-export const loadTrekkingRoutes = async () => {
+export const loadTrekkingRoutes = async (page) => {
   const response = await fetch(
-    `${process.env.REACT_APP_API_URL}/trekkingRoutes`
+    `${process.env.REACT_APP_API_URL}/trekkingRoutes/?page=${page}&perPage=5`
   );
   const data = await response.json();
   return data;
@@ -59,7 +59,9 @@ export const login = async (loginFormValue) => {
       body: JSON.stringify(loginFormValue),
     });
     const data = await response.json();
-    alert("loggato");
+    if (response.status === 401) {
+      alert("errore");
+    }
     return data;
   } catch (error) {
     if (error.status === 401) {
@@ -80,15 +82,17 @@ export const register = async (registerFormValue, avatar) => {
       method: "POST",
       body: formData,
     });
+    console.log(response);
     const data = await response.json();
     if (response.status === 400) {
       alert("Errore: utente già registrato con questa email.");
       return;
     }
     alert("registrato");
+    console.log(data);
     return data;
   } catch (error) {
-    alert("errore");
+    alert(error);
   }
 };
 

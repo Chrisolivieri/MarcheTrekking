@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "./routeDetails.css"
 import Map from "../../map/Map.jsx";
 import { Spinner } from "react-bootstrap";
+import CommentsSection from "../commentSection/CommentsSection.jsx";
 
 const RouteDetails = () => {
   const params = useParams();
@@ -32,6 +33,7 @@ const RouteDetails = () => {
     ) : (
       <p>Loading map...</p>
     )}
+    <CommentsSection />
   </>
   );
 };

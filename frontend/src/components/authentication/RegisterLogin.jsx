@@ -33,15 +33,20 @@ const RegisterLogin = () => {
   };
 
   const handleRegister = async (event) => {
-    const form = event.currentTarget;
+    const form = event.currentTarget; // get the form
+    event.preventDefault(); // Prevent form from submitting
+
     if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      const res = await register(regFormValue, avatarFile);
-      console.log(res);
+      setValidated(true); // if the form is not valid, set validated to true
+      return; // stop the rest of the code from running
     }
-    setValidated(true);
+
+    try {
+      const res = await register(regFormValue, avatarFile); 
+      console.log("Registrazione avvenuta con successo:", res);
+    } catch (error) {
+      console.error("Errore nella registrazione:", error);
+    }
   };
 
   const handleLogin = async (event) => {
@@ -116,8 +121,8 @@ const RegisterLogin = () => {
                 name="age"
                 value={regFormValue.age}
                 onChange={handleChangeRegistration}
-                min = "1"
-                max = "120"
+                min="1"
+                max="120"
               />
               <Form.Control.Feedback type="invalid">
                 Inserisci un numero valido
@@ -161,7 +166,7 @@ const RegisterLogin = () => {
               type="email"
               name="email"
               onChange={handleChangeFormValue}
-              required 
+              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -170,11 +175,16 @@ const RegisterLogin = () => {
               type="password"
               name="password"
               onChange={handleChangeFormValue}
-              required 
+              required
             />
           </Form.Group>
-          <Button variant="primary" type="submit">Login</Button>
-          <Button as={Link} to={`${process.env.REACT_APP_API_URL}/login-google`}>
+          <Button variant="primary" type="submit">
+            Login
+          </Button>
+          <Button
+            as={Link}
+            to={`${process.env.REACT_APP_API_URL}/login-google`}
+          >
             Login con Google
           </Button>
         </Form>

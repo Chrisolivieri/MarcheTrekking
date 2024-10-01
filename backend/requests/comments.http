@@ -1,27 +1,27 @@
 
 // Create new comment
-POST http://localhost:5000/trekkingRoutes/66eaf1af85e62ff9419eaedd/comments
+POST http://localhost:5000/trekkingRoutes/66f974318d531db9c27d1837/comments
 Content-Type: application/json
 
 {
-    "user": "66ec42d6861cce400a6dd6de",
-    "content": "prova commento"
+    "user": "66ec60783572866571f0aeaf",
+    "content": "nuovo commento"
 }
 
 ###
 
 // Get all comments
-GET http://localhost:5000/trekkingRoutes/66eaf1af85e62ff9419eaedd/comments
+GET http://localhost:5000/trekkingRoutes/66f974318d531db9c27d1837/comments
 
 ###
 
 // Get one comment
-GET http://localhost:5000/trekkingRoutes/66eaf1af85e62ff9419eaedd/comments/66ed94bb8af08f2c026293e5
+GET http://localhost:5000/trekkingRoutes/66f974318d531db9c27d1837/comments/66fc12ad40538f2cb3ea4885
 
 ###
 
 // Edit a comment
-PUT http://localhost:5000/trekkingRoutes/66eaf1af85e62ff9419eaedd/comments/66ed94bb8af08f2c026293e5
+PUT http://localhost:5000/trekkingRoutes/66f974318d531db9c27d1837/comments/66fc12ad40538f2cb3ea4885
 Content-Type: application/json
 
 {
@@ -32,4 +32,4 @@ Content-Type: application/json
 
 // Delete a comment
 
-DELETE http://localhost:5000/trekkingRoutes/66eaf1af85e62ff9419eaedd/comments/66ed923bdd12704b72de6fdd
+DELETE http://localhost:5000/trekkingRoutes/66f974318d531db9c27d1837/comments/66fc11b527873d9b7f7147ef
