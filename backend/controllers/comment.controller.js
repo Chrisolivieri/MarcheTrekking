@@ -22,7 +22,7 @@ export const readAllComments = async (req, res) => {
     })
       .populate("trekkingRoutes", ["title"])
       .populate("user", ["name", "email", "avatar"]);
-    
+
     return res.send({ data: allComments });
   } catch (err) {
     console.log(err);
@@ -32,7 +32,7 @@ export const readAllComments = async (req, res) => {
 
 export const readOneComment = async (req, res) => {
   const id = req.params.id;
-  console.log(id)
+  console.log(id);
   try {
     const comment = await Comments.findById(id).populate("trekkingRoutes", [
       "title",
@@ -57,9 +57,14 @@ export const editComment = async (req, res) => {
 };
 
 export const deleteComment = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   try {
-    const deletedComment = await Comments.findOneAndDelete(id);
+    const deletedComment = await Comments.findOneAndDelete({
+      _id: id,
+    });
+    if (!deletedComment) {
+      return res.status(404).send({ error: "Comment not found" });
+    }
     return res.send({ data: deletedComment });
   } catch (err) {
     res.status(400).send({ error: "something went wrong" });

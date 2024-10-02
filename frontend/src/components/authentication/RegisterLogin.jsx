@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const RegisterLogin = () => {
   const [validated, setValidated] = useState(false);
-  const { token, setToken } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
 
   const registrationFormValue = {
     name: "",
@@ -97,7 +97,7 @@ const RegisterLogin = () => {
               />
               <Form.Control.Feedback>Ok!</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+            <Form.Group as={Col} md="4" controlId="validationCustom03">
               <Form.Label>E-mail</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
@@ -108,6 +108,10 @@ const RegisterLogin = () => {
                   value={regFormValue.email}
                   onChange={handleChangeRegistration}
                 />
+                <Form.Control.Feedback>Ok!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                Inserisci un Indirizzo E-mail valido
+              </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
           </Row>
@@ -127,6 +131,7 @@ const RegisterLogin = () => {
               <Form.Control.Feedback type="invalid">
                 Inserisci un numero valido
               </Form.Control.Feedback>
+              <Form.Control.Feedback>Ok!</Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} md="10" controlId="validationCustom04">
               <Form.Label>Password</Form.Label>

@@ -132,3 +132,46 @@ export const newComment = async (id, formValue) => {
   const data = await response.json();
   return data;
 };
+
+export const editComment = async (trekkingId, commentId, editCommentData) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/trekkingRoutes/${trekkingId}/comments/${commentId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(editCommentData),
+      }
+    );
+    console.log(response);
+    if (!response.ok) {
+      throw new Error("Errore durante la modifica del commento");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Errore durante la modifica del commento");
+  }
+};
+
+export const deleteComment = async (trekkingId, commentId) => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_URL}/trekkingRoutes/${trekkingId}/comments/${commentId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Errore durante la cancellazione del commento");
+  }
+  return response.json();
+};
