@@ -43,7 +43,10 @@ export const newTrekkingRoute = async (formValue, images) => {
       return console.log("percorso non inserito");
     }
 
-    return data;
+    return {
+      status: response.status,
+      data: data,
+    };
   } catch (error) {
     console.log(error);
   }

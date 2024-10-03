@@ -6,6 +6,7 @@ import helment from "helmet";
 import usersRoutes from "./routes/usersRoutes.js";
 import trekkingRoutes from "./routes/trekkingRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import favoritesRoute from "./routes/favoritesRoutes.js";
 import cors from "cors";
 import  endpoints from "express-list-endpoints";
 import passport from "passport";
@@ -31,6 +32,7 @@ server.use(cors());
 server.use("/users", usersRoutes)
 server.use("/trekkingRoutes", trekkingRoutes)
 server.use("/", authRoutes)
+server.use("/favorites", favoritesRoute)
 
 server.listen(port, () =>{
   console.log(`Server running on ${host}:${port}`);

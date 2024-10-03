@@ -1,0 +1,24 @@
+// Create new favorite
+
+POST http://localhost:5000/favorites
+Content-Type: application/json
+
+{
+    "userId": "66ec60783572866571f0aeaf",
+    "trekkingRouteId": "66fabb77d45b1fc46592cb83"
+}
+###
+// Get all favorites
+
+GET http://localhost:5000/favorites/66ec60783572866571f0aeaf
+
+###
+
+// Delete favorite
+
+DELETE http://localhost:5000/favorites/66ec60783572866571f0aeaf
+Content-Type: application/json
+
+{
+    "trekkingRouteId": "66fabb77d45b1fc46592cb83"
+}
