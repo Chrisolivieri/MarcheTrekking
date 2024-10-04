@@ -178,3 +178,71 @@ export const deleteComment = async (trekkingId, commentId) => {
   }
   return response.json();
 };
+
+export const addFavorite = async (userId, trekkingRouteId) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/favorites`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        userId,
+        trekkingRouteId,
+      }),
+    });
+
+
+   
+    if (response.ok) {
+      console.log("preferito inserito");
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    if (error.status === 400) {
+      alert("preferito già inserito");
+    }
+  }
+};
+
+export const getAllFavorites = async (userId) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/favorites/${userId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteFavorite = async (userId, trekkingRouteId) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/favorites/${userId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          trekkingRouteId,
+        }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

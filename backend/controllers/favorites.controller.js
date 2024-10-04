@@ -2,20 +2,28 @@ import Favorites from "../models/favorites.schema.js";
 
 export const addFavorite = async (req, res) => {
   const { userId, trekkingRouteId } = req.body;
+
   try {
+    const existingFavorite = await Favorites.findOne({
+      user: userId,
+      trekkingRoute: trekkingRouteId,
+    });
+
+    if (existingFavorite) {
+      return res.status(400).send({
+        error: "Favorite already exists"
+      });
+    }
+
     const favorite = new Favorites({
       user: userId,
       trekkingRoute: trekkingRouteId,
     });
-    
+
     await favorite.save();
     res.status(201).send(favorite);
   } catch (error) {
-    if (error.code === 11000) {
-      return res.status(400).send({
-        error: "Questo percorso esiste già nella lista dei preferiti",
-      });
-    }
+    console.error(error);
     res.status(500).send({ error: error.message });
   }
 };
