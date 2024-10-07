@@ -21,6 +21,6 @@ router.put("/:id", auth, usersController.updateUser);
 router.delete("/:id", auth, usersController.deleteUser);
 
 // Update avatar
-router.patch("/:id/avatar", auth, uploadCloudinary.single("avatar"), usersController.updateAvatar);
+router.patch("/:id/avatar", uploadCloudinary.single("avatar"), usersController.updateAvatar);
 
 export default router

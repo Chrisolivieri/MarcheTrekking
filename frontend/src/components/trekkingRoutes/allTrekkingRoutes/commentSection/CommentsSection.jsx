@@ -9,6 +9,7 @@ import { Col, Container, Row, Modal, Button } from "react-bootstrap";
 import { UserContext } from "../../../../context/UserContextProvider";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import "./CommentsSection.css"
 
 const CommentsSection = () => {
   const [comments, setComments] = useState([]);
@@ -136,7 +137,7 @@ const CommentsSection = () => {
                         {comment.user ? (
                           <div>
                             <p>{"Commento di " + comment.user.name}</p>
-                            <img src={comment.user.avatar} alt="" />
+                            <img className="avatarComment" src={comment.user.avatar} alt="" />
 
                             {comment.user &&
                               comment.user._id === decodedToken?.id && (

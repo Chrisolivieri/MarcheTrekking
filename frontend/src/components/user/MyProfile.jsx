@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
-import { deleteFavorite, getAllFavorites } from "../../data/Fetch";
+import { deleteFavorite, getAllFavorites, updateUserAvatar } from "../../data/Fetch";
 import { Col, Container, Row, Image, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./MyProfile.css"
 
 const MyProfile = () => {
   const { userInfo } = useContext(UserContext);
   const [favorites, setFavorites] = useState([]);
+  const [avatarFile, setAvatarFile] = useState(null);
 
   
 
@@ -19,6 +22,19 @@ const MyProfile = () => {
   }
 };
 
+const handleChangeAvatar = (event) => {
+  setAvatarFile(event.target.files[0]);
+};
+
+const uploadAvatar = async () => {
+  try {
+    const response = await updateUserAvatar(avatarFile, userInfo._id);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
   
 
   useEffect(() => {
@@ -26,7 +42,6 @@ const MyProfile = () => {
       try {
         const response = await getAllFavorites(userInfo._id);
         setFavorites(response);
-        console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -39,7 +54,10 @@ const MyProfile = () => {
     <>
       <h1>{userInfo?.name}</h1>
       <h2>{userInfo?.surname}</h2>
-      <img src={userInfo?.avatar}></img>
+      <img className="avatarProfile" src={userInfo?.avatar}></img>
+
+      <input type="file" onChange={handleChangeAvatar} />
+      <Button onClick={uploadAvatar}>upload</Button>
       <h3>{userInfo?.role}</h3>
       <h3>{userInfo?.email}</h3>
 
@@ -47,11 +65,13 @@ const MyProfile = () => {
         <Container key={i}>
           <Row>
             <Col md={12}>
-              <h1>{favorite.trekkingRoute.name}</h1>
-              <Image src={favorite.trekkingRoute.images[3]}></Image>
-              <h3>{favorite.difficulty}</h3>
-              <h3>{favorite.length}</h3>
-              <h3>{favorite.description}</h3>
+              <Link to = {`/trekkingRoutes/${favorite.trekkingRoute._id}`}>
+                <h1>{favorite.trekkingRoute.name}</h1>
+                <Image src={favorite.trekkingRoute.images[3]}></Image>
+                <h3>{favorite.difficulty}</h3>
+                <h3>{favorite.length}</h3>
+                <h3>{favorite.description}</h3>
+              </Link>
               <Button onClick={() => handleDeleteFavorite(favorite.trekkingRoute._id)}>elimina</Button>
             </Col>
           </Row>

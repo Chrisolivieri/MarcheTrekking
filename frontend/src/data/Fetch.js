@@ -3,6 +3,7 @@ export const loadTrekkingRoutes = async (page) => {
     `${process.env.REACT_APP_API_URL}/trekkingRoutes/?page=${page}&perPage=5`
   );
   const data = await response.json();
+  console.log(data);
   return data;
 };
 
@@ -193,8 +194,6 @@ export const addFavorite = async (userId, trekkingRouteId) => {
       }),
     });
 
-
-   
     if (response.ok) {
       console.log("preferito inserito");
       const data = await response.json();
@@ -238,6 +237,31 @@ export const deleteFavorite = async (userId, trekkingRouteId) => {
         body: JSON.stringify({
           trekkingRouteId,
         }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateUserAvatar = async (image, id) => {
+  const formData = new FormData();
+  formData.append("avatar", image);
+
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/${id}/avatar`,
+
+      {
+        method: "PATCH",
+        body: formData,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
     );
     const data = await response.json();

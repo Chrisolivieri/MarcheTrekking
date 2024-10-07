@@ -3,6 +3,7 @@
   height: 3rem;
   border-radius: 50%;
   margin-right: 5px;
+  object-fit: cover;
 }
 
 .logoNav {
@@ -10,4 +11,8 @@
   height: auto;
   border-radius: 50%;
   margin-right: 5px;
+}
+
+.navbar-nav {
+  --bs-nav-link-hover-color: rgb(147 178 109)
 }
