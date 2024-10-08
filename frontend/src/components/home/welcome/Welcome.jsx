@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link, useSearchParams } from "react-router-dom";
 import { UserContext } from "../../../context/UserContextProvider";
+import "./Welcome.css";
 
 const Welcome = () => {
   const { token, setToken } = useContext(UserContext);
@@ -28,14 +29,27 @@ const Welcome = () => {
   return (
     <>
       <Container className="welcome">
-        <Row>
-          <Col md={3}>
-            <h1>Benvenuto in Marche Trekking</h1>
-            <p>hadfiasdfihsdfasdfsadfsdfsdfsadfasdfasdf</p>
-            <p>aisduhfasdfsajdfasdfas</p>
-            <p>adndasfasdfasdfd</p>
-          </Col>
-        </Row>
+        <img src="../../assets/logo.png" className="fadeIn"></img>
+        <div className="background">
+        </div>
+      </Container>
+      <Container className="fadeInBottom">
+        <p className="textFadeIn">
+          Marche Trekking propone una vasta gamma di percorsi di trekking nelle
+          splendide terre marchigiane, ideali per escursionisti di tutti i
+          livelli.
+        </p>
+        <p className="textFadeIn">
+          Dalle cime degli Appennini ai sentieri costieri del Conero, esplora
+          paesaggi naturali incontaminati, antichi borghi, boschi rigogliosi e
+          panorami mozzafiato.
+        </p>
+        <p className="textFadeIn">
+          Che tu sia un appassionato di trekking o un principiante in cerca di
+          avventura, Marche Trekking ti guida alla scoperta delle meraviglie
+          nascoste della regione, per un'esperienza immersiva tra natura e
+          tradizione.
+        </p>
       </Container>
     </>
   );

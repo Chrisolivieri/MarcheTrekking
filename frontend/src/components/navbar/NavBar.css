@@ -1,3 +1,19 @@
+.containerNav {
+  background-color: #fefefe; 
+  padding: 0rem 1rem; 
+}
+
+.logoNav {
+  height: 5rem; 
+  width: auto;
+}
+
+.nav-link {
+  font-size: 1rem; 
+  font-weight: 500;
+  padding: 0.3rem 1rem; 
+}
+
 .avatarNav {
   width: 3rem;
   height: 3rem;
@@ -6,13 +22,18 @@
   object-fit: cover;
 }
 
-.logoNav {
-  width: 8rem;
-  height: auto;
-  border-radius: 50%;
-  margin-right: 5px;
-}
-
 .navbar-nav {
   --bs-nav-link-hover-color: rgb(147 178 109)
+}
+
+.navbar-toggler {
+  padding: 0.25rem 0.5rem;
+}
+.dropdown-menu{
+  margin-bottom: 1rem;
+}
+
+.navIcons{
+  font-size: 1.2rem;
+  margin-right:0.2rem;
 }
