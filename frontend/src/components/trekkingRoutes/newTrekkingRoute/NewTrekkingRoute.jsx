@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Alert, Button, Container, Form, Spinner } from "react-bootstrap";
+import { Alert, Button, Container, Form, Row, Col, Spinner } from "react-bootstrap";
 import { newTrekkingRoute } from "../../../data/Fetch";
+import "./NewTrekkingRoute.css"
 
 const NewTrekkingRoute = () => {
   const [images, setImages] = useState([]);
@@ -78,189 +79,201 @@ const NewTrekkingRoute = () => {
       end: updatedEnd,
     });
   };
+
   const handleSubmit = async (event) => {
-  event.preventDefault();
-  setLoading(true);
-  setMessage("");
+    event.preventDefault();
+    setLoading(true);
+    setMessage("");
 
-  // Validation
-  if (!images || !formValue.name || !formValue.description) {
-    setMessage("Compila tutti i campi richiesti.");
-    setLoading(false);
-    return;
-  }
-
-  try {
-    const response = await newTrekkingRoute(formValue, images);
-    if (response.status === 201) {
-      setMessage("Percorso creato con successo");
-      setAlertVariant("success");
+    // Validation
+    if (!images || !formValue.name || !formValue.description) {
+      setMessage("Compila tutti i campi richiesti.");
+      setLoading(false);
+      return;
     }
-  } catch (error) {
-    setMessage("Errore durante l'inserimento del percorso.");
-    setAlertVariant("danger");
-  } finally {
-    setLoading(false);
-  }
-};
+
+    try {
+      const response = await newTrekkingRoute(formValue, images);
+      if (response.status === 201) {
+        setMessage("Percorso creato con successo");
+        setAlertVariant("success");
+      }
+    } catch (error) {
+      setMessage("Errore durante l'inserimento del percorso.");
+      setAlertVariant("danger");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
-      <Container>
-        <h1>Crea un nuovo percorso</h1>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mt-3">
-            <Form.Label>Nome</Form.Label>
-            <Form.Control
-              onChange={handleChangeFormValue}
-              size="lg"
-              placeholder="Nome"
-              name="name"
-              required
+      <Container className="new-trekking-route">
+        <h2>Crea un nuovo percorso</h2>
+        <Row>
+          <Col md={6}>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mt-3">
+                <Form.Label>Nome</Form.Label>
+                <Form.Control
+                  onChange={handleChangeFormValue}
+                  size="lg"
+                  placeholder="Nome"
+                  name="name"
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mt-3">
+                <Form.Label>Descrizione</Form.Label>
+                <Form.Control
+                  onChange={handleChangeFormValue}
+                  size="lg"
+                  placeholder="Descrizione percorso"
+                  name="description"
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mt-3">
+                <Form.Label>Immagini</Form.Label>
+                <Form.Control
+                  type="file"
+                  name="images"
+                  multiple
+                  onChange={handleChangeImages}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mt-3">
+                <Form.Label>Distanza</Form.Label>
+                <Form.Control
+                  onChange={handleChangeFormValue}
+                  size="lg"
+                  placeholder="Distanza percorso"
+                  name="distance"
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mt-3">
+                <Form.Label>Dislivello</Form.Label>
+                <Form.Control
+                  onChange={handleChangeFormValue}
+                  size="lg"
+                  placeholder="Dislivello"
+                  name="heightDifference"
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mt-3">
+                <Form.Label>Difficoltà</Form.Label>
+                <Form.Control
+                  onChange={handleChangeFormValue}
+                  size="lg"
+                  placeholder="Difficoltà"
+                  name="difficulty"
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group className="mt-3">
+                <Form.Label>Durata</Form.Label>
+                <Form.Control
+                  onChange={handleChangeFormValue}
+                  size="lg"
+                  placeholder="Durata percorso"
+                  name="duration"
+                  required
+                />
+              </Form.Group>
+            </Form>
+          </Col>
+
+          <Col md={6}>
+            <h2>Informazioni relative alla posizione del percorso</h2>
+            <Form.Group className="mt-3">
+              <Form.Label>Latitudine Punto di inizio</Form.Label>
+              <Form.Control
+                onChange={handleStartRoute}
+                size="lg"
+                placeholder="Latitudine inizio percorso"
+                name="startLat"
+                required
               />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Descrizione</Form.Label>
-            <Form.Control
-              onChange={handleChangeFormValue}
-              size="lg"
-              placeholder="Descrizione percorso"
-              name="description"
-              required
-            />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Immagini</Form.Label>
-            <Form.Control
-              type="file"
-              name="images"
-              multiple
-              onChange={handleChangeImages}
-              required
+            </Form.Group>
+
+            <Form.Group className="mt-3">
+              <Form.Label>Longitudine Punto di inizio</Form.Label>
+              <Form.Control
+                onChange={handleStartRoute}
+                size="lg"
+                placeholder="Longitudine inizio percorso"
+                name="startLng"
+                required
               />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Distanza</Form.Label>
-            <Form.Control
-              onChange={handleChangeFormValue}
-              size="lg"
-              placeholder="Distanza percorso"
-              name="distance"
-              required
+            </Form.Group>
+
+            <Form.Group className="mt-3">
+              <Form.Label>Latitudine Punto di fine</Form.Label>
+              <Form.Control
+                onChange={handleEndRoute}
+                size="lg"
+                placeholder="Latitudine fine percorso"
+                name="endLat"
+                required
               />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Dislivello</Form.Label>
-            <Form.Control
-              onChange={handleChangeFormValue}
-              size="lg"
-              placeholder="Dislivello"
-              name="heightDifference"
-              required
+            </Form.Group>
+
+            <Form.Group className="mt-3">
+              <Form.Label>Longitudine Punto di fine</Form.Label>
+              <Form.Control
+                onChange={handleEndRoute}
+                size="lg"
+                placeholder="Longitudine fine percorso"
+                name="endLng"
+                required
               />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Difficoltà</Form.Label>
-            <Form.Control
-              onChange={handleChangeFormValue}
-              size="lg"
-              placeholder="Difficoltà"
-              name="difficulty"
-              required
-              />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Durata</Form.Label>
-            <Form.Control
-              onChange={handleChangeFormValue}
-              size="lg"
-              placeholder="Durata percorso"
-              name="duration"
-              required
-              />
-          </Form.Group>
-  
-          <h2>Informazioni relative alla posizione del percorso</h2>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Latitudine Punto di inizio</Form.Label>
-            <Form.Control
-              onChange={handleStartRoute}
-              size="lg"
-              placeholder="Latitudine inizio percorso"
-              name="startLat"
-              required
-              />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Longitudine Punto di inizio</Form.Label>
-            <Form.Control
-              onChange={handleStartRoute}
-              size="lg"
-              placeholder="Longitudine inizio percorso"
-              name="startLng"
-              required
-              />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Latitudine Punto di fine</Form.Label>
-            <Form.Control
-              onChange={handleEndRoute}
-              size="lg"
-              placeholder="Latitudine fine percorso"
-              name="endLat"
-              required
-              />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Longitudine Punto di fine</Form.Label>
-            <Form.Control
-              onChange={handleEndRoute}
-              size="lg"
-              placeholder="Longitudine fine percorso"
-              name="endLng"
-              required
-              />
-          </Form.Group>
-  
-          <Form.Group className="mt-3">
-            <Form.Label>Coordinate del sentiero</Form.Label>
-            <Button
-              onClick={handleAddCoordinate}
-              variant="secondary"
-              className="mx-2"
+            </Form.Group>
+
+            <Form.Group className="mt-3">
+              <Form.Label>Coordinate del sentiero</Form.Label>
+              <Button
+                onClick={handleAddCoordinate}
+                variant="secondary"
+                className="mx-2"
               >
-              Aggiungi Coordinate
-            </Button>
-            <ul>
-              {formValue.coordinates.map((coord, index) => (
-                <li key={index}>
-                  {`Lat: ${coord[0]}, Lng: ${coord[1]}`}
-                  <Button
-                    variant="danger"
-                    className="mx-2"
-                    onClick={() => handleRemoveCoordinate(index)}
+                Aggiungi Coordinate
+              </Button>
+              <ul>
+                {formValue.coordinates.map((coord, index) => (
+                  <li key={index}>
+                    {`Lat: ${coord[0]}, Lng: ${coord[1]}`}
+                    <Button
+                      variant="danger"
+                      className="mx-2 mt-2"
+                      onClick={() => handleRemoveCoordinate(index)}
                     >
-                    Rimuovi
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </Form.Group>
-  
-          <Button type="submit" size="lg" variant="dark" disabled={loading}>
-            {loading ? <Spinner /> : "Invia"}
-          </Button>
-        </Form>
+                      Rimuovi
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </Form.Group>
+          </Col>
+        </Row>
+
+        {/* Pulsante in fondo */}
+        <Row className="mt-4">
+          <Col>
+            <Button type="submit" size="lg" variant="success" disabled={loading}>
+              {loading ? <Spinner animation="border" size="sm" /> : "Invia"}
+            </Button>
+          </Col>
+        </Row>
+
         {message && <Alert variant={alertVariant}>{message}</Alert>}
       </Container>
     </>

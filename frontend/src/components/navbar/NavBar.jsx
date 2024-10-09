@@ -5,6 +5,9 @@ import { UserContext } from "../../context/UserContextProvider";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { GiMountainRoad } from "react-icons/gi";
 import { IoHome } from "react-icons/io5";
+import { CiSquarePlus } from "react-icons/ci";
+import { MdOutlineAccountCircle } from "react-icons/md";
+import { AiOutlineLogout } from "react-icons/ai";
 const NavBar = () => {
   const { token, setToken } = useContext(UserContext);
   const [logOut, setLogOut] = useState(false);
@@ -46,7 +49,7 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link onClick={handleHomeClick}>
+              <Nav.Link to="/" onClick={handleHomeClick}>
                 <IoHome className="navIcons" />
                 Home
               </Nav.Link>
@@ -54,6 +57,18 @@ const NavBar = () => {
                 <GiMountainRoad className="navIcons" />
                 Sentieri
               </Nav.Link>
+              {userInfo?.role === "admin" && token && (
+                <Nav.Link onClick={createRouteClick}>
+                  <CiSquarePlus className="navIcons" />
+                  Crea un sentiero
+                </Nav.Link>
+              )}
+              {token && userInfo && (
+                <Nav.Link onClick={handleMyProfileClick}>
+                  <MdOutlineAccountCircle className="navIcons" />
+                  Profilo
+                </Nav.Link>
+              )}
             </Nav>
             <Nav>
               {token && userInfo && (
@@ -64,16 +79,19 @@ const NavBar = () => {
                   id="collapsible-nav-dropdown"
                 >
                   <NavDropdown.Item onClick={handleMyProfileClick}>
-                    Il mio Profilo
+                    <MdOutlineAccountCircle className="navIcons" />
+                    Il mio profilo
                   </NavDropdown.Item>
                   {userInfo?.role === "admin" && (
                     <NavDropdown.Item onClick={createRouteClick}>
+                      <CiSquarePlus className="navIcons" />
                       Crea un nuovo sentiero
                     </NavDropdown.Item>
                   )}
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={handleLogout}>
-                    Log out
+                    <AiOutlineLogout className="navIcons" />
+                    Esci
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
