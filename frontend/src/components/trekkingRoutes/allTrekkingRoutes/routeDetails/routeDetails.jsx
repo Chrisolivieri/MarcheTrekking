@@ -3,7 +3,7 @@ import { addFavorite, loadTrekkingRoute } from "../../../../data/Fetch.js";
 import { useParams } from "react-router-dom";
 import "./routeDetails.css";
 import Map from "../../map/Map.jsx";
-import { Spinner } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import CommentsSection from "../commentSection/CommentsSection.jsx";
 import { UserContext } from "../../../../context/UserContextProvider.jsx";
 
@@ -39,18 +39,20 @@ const RouteDetails = () => {
 
   return (
     <>
-      <h1>{route.name ? route.name : <Spinner animation="border" />}</h1>
-      <button onClick={handleAddFavorite}>Aggiungi ai Preferiti</button>
-      {route.start && route.end ? (
-        <Map
+      <Container>
+        <h2 className="titleDetails">{route.name ? route.name : <Spinner animation="border" />}</h2>
+        {route.start && route.end ? (
+          <Map 
           start={route.start}
           end={route.end}
           coordinates={route.coordinates}
-        />
-      ) : (
-        <p>Loading map...</p>
-      )}
-      <CommentsSection />
+          />
+        ) : (
+          <p>Loading map...</p>
+        )}
+        <button onClick={handleAddFavorite}>Aggiungi ai Preferiti</button>
+        <CommentsSection />
+      </Container>
     </>
   );
 };

@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { loadTrekkingRoutes } from "../../../data/Fetch";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import SingleRoute from "../singleRoute/SingleRoute";
+import { CgDanger } from "react-icons/cg";
+import { GiPathDistance } from "react-icons/gi";
+import { CiClock1 } from "react-icons/ci";
+import { GiMountainRoad } from "react-icons/gi";
+
+import "./AllTrekkingRoutes.css";
 
 const AllTrekkingRoutes = () => {
   const [trekkingRoutes, setTrekkingRoutes] = useState([]);
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchQuery2, setSearchQuery2] = useState("");
   const [searchQuery3, setSearchQuery3] = useState("");
+  const [searchQuery4, setSearchQuery4] = useState("");
+
+  useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []); 
 
   useEffect(() => {
     const fetchTrekkingRoutes = async () => {
+      setIsLoading(true);
       const newRoutes = await loadTrekkingRoutes(page);
       setTrekkingRoutes((prevRoutes) => [...prevRoutes, ...newRoutes]);
+      setIsLoading(false);
     };
 
     fetchTrekkingRoutes();
@@ -38,47 +52,55 @@ const AllTrekkingRoutes = () => {
     const difficultyMatch = route.difficulty
       .toLowerCase()
       .includes(searchQuery3.toLowerCase());
-    return titleMatch && distanceMatch && difficultyMatch;
+
+    const durationMatch = String(route.duration)
+      .toLowerCase()
+      .includes(searchQuery4.toLowerCase());
+
+    return titleMatch && distanceMatch && difficultyMatch && durationMatch;
   });
 
   return (
     <>
+      <h1 className="trekkingTitle">
+        <GiMountainRoad /> I nostri percorsi
+      </h1>
       <Container>
         <Row>
-          <Col md={3}>
+          <Col className="colSticky" md={3}>
+            <h6 className="text-center">Filtri</h6>
             <input
               type="text"
               placeholder="Filtra percorsi per titolo"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              className="form-control text-center"
+              className="form-control text-center mt-3"
             />
 
-            <form action="#">
-              <label htmlFor="difficulty">Difficoltà</label>
+            <form action="#" className="formSelect">
+              <label htmlFor="difficulty">
+                <CgDanger size={25} /> Difficoltà
+              </label>
               <select
+                className="form-select"
                 name="difficulty"
                 id="difficulty"
                 value={searchQuery3}
                 onChange={(event) => setSearchQuery3(event.target.value)}
               >
-                <option value="">Filtra per difficoltà</option>
+                <option value="">Seleziona una difficoltà</option>
                 <option value="Facile">Facile</option>
                 <option value="Media">Medio</option>
                 <option value="Difficile">Difficile</option>
               </select>
             </form>
 
-            {/* <input
-              type="text"
-              placeholder="Filtra percorsi per difficoltà (Facile, Media, Difficile)"
-              value={searchQuery3}
-              onChange={(event) => setSearchQuery3(event.target.value)}
-              className="form-control text-center"
-            /> */}
-            <form action="#">
-              <label htmlFor="distance">Distanza</label>
+            <form action="#" className="formSelect">
+              <label htmlFor="distance">
+                <GiPathDistance size={25} /> Distanza
+              </label>
               <select
+                className="form-select"
                 name="distance"
                 id="distance"
                 value={searchQuery2}
@@ -91,34 +113,54 @@ const AllTrekkingRoutes = () => {
                 <option value="15-20">15 - 20 km</option>
               </select>
             </form>
-          </Col>
-          <Col md={9}>
-            {filteredRoutes.length > 0 ? (
-              filteredRoutes.map((trekkingRoute, i) => (
-                <React.Fragment key={i}>
-                  <SingleRoute {...trekkingRoute} />
 
-                  <Card>
-                    <Card.Body>
-                      <Card.Title>{trekkingRoute.name}</Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted">
-                        {trekkingRoute.description}
-                      </Card.Subtitle>
-                      <Card.Text>
-                        {trekkingRoute.difficulty} - {trekkingRoute.distance} km
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </React.Fragment>
-              ))
-            ) : (
-              <p>Nessun percorso trovato</p>
-            )}
+            <form action="#" className="formSelect">
+              <label htmlFor="duration">
+                <CiClock1 size={25} /> Durata
+              </label>
+              <select
+                className="form-select"
+                name="distance"
+                id="distance"
+                value={searchQuery4}
+                onChange={(event) => setSearchQuery4(event.target.value)}
+              >
+                <option value="">Seleziona una durata</option>
+
+                <option value="3">3 ore</option>
+                <option value="4">4 ore</option>
+                <option value="5">5 ore</option>
+                <option value="6">6 ore</option>
+              </select>
+            </form>
           </Col>
+          {isLoading ? (
+            <Spinner className="spinner" />
+          ) : (
+            <Col className="col2" md={9}>
+              {filteredRoutes.length > 0 ? (
+                filteredRoutes.map((trekkingRoute, i) => (
+                  <React.Fragment key={i}>
+                    <SingleRoute {...trekkingRoute} />
+                  </React.Fragment>
+                ))
+              ) : (
+                <>
+                  <p className="text-center m-5">
+                    <b>Nessun percorso trovato</b>
+                  </p>
+                </>
+              )}
+            </Col>
+          )}
         </Row>
       </Container>
       {trekkingRoutes.length < 11 && (
-        <Button onClick={loadMoreRoutes}>Carica più percorsi</Button>
+        <Container className="text-center">
+          <Button className="loadMoreButton" onClick={loadMoreRoutes}>
+            Carica più percorsi
+          </Button>
+        </Container>
       )}
     </>
   );

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
+import "./Map.css"
 
 
 export default function Map({ start, end, coordinates }) {
@@ -46,8 +47,7 @@ export default function Map({ start, end, coordinates }) {
   };
 
   return (
-    <Container>
-      <MapContainer center={start} zoom={14} scrollWheelZoom={true}>
+      <MapContainer center={start} zoom={14} className="map" scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -61,6 +61,5 @@ export default function Map({ start, end, coordinates }) {
         </Marker>
         <AddRoute points={trekkingPoints} />
       </MapContainer>
-    </Container>
   );
 }
