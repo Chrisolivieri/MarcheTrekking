@@ -64,12 +64,10 @@ export const login = async (loginFormValue) => {
     });
     const data = await response.json();
     if (response.status === 401) {
-      alert("errore");
     }
     return data;
   } catch (error) {
     if (error.status === 401) {
-      alert("errore");
     }
   }
 };
@@ -89,12 +87,13 @@ export const register = async (registerFormValue, avatar) => {
     console.log(response);
     const data = await response.json();
     if (response.status === 400) {
-      alert("Errore: utente già registrato con questa email.");
       return;
     }
-    alert("registrato");
     console.log(data);
-    return data;
+    return {
+      status: response.status,
+      data: data,
+    };
   } catch (error) {
     alert(error);
   }

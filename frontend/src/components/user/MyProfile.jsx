@@ -1,41 +1,59 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
-import { deleteFavorite, getAllFavorites, updateUserAvatar } from "../../data/Fetch";
-import { Col, Container, Row, Image, Button } from "react-bootstrap";
+import {
+  deleteFavorite,
+  getAllFavorites,
+  updateUserAvatar,
+} from "../../data/Fetch";
+import {
+  Col,
+  Container,
+  Row,
+  Image,
+  Button,
+  Card,
+  Alert,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./MyProfile.css"
+import { FaHeart } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
+import "./MyProfile.css";
 
 const MyProfile = () => {
   const { userInfo } = useContext(UserContext);
   const [favorites, setFavorites] = useState([]);
   const [avatarFile, setAvatarFile] = useState(null);
-
-  
+  const [alertMessage, setAlertMessage] = useState("");
 
   const handleDeleteFavorite = async (trekkingRouteId) => {
+    try {
+      await deleteFavorite(userInfo._id, trekkingRouteId);
+      setFavorites(
+        favorites.filter(
+          (favorite) => favorite.trekkingRoute._id !== trekkingRouteId
+        )
+      );
+      setAlertMessage("Preferito eliminato con successo!");
+    } catch (error) {
+      console.log(error);
+      setAlertMessage("Errore durante l'eliminazione del preferito.");
+    }
+  };
 
-  try {
-    const response = await deleteFavorite(userInfo._id, trekkingRouteId);
-    setFavorites(favorites.filter(favorite => favorite.trekkingRoute._id !== trekkingRouteId)); // Remove the deleted favorite from the state
-  } catch (error) {
-    console.log(error);
-  }
-};
+  const handleChangeAvatar = (event) => {
+    setAvatarFile(event.target.files[0]);
+  };
 
-const handleChangeAvatar = (event) => {
-  setAvatarFile(event.target.files[0]);
-};
-
-const uploadAvatar = async () => {
-  try {
-    const response = await updateUserAvatar(avatarFile, userInfo._id);
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-  
+  const uploadAvatar = async () => {
+    try {
+      await updateUserAvatar(avatarFile, userInfo._id);
+      setAlertMessage("Avatar aggiornato con successo!");
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      setAlertMessage("Errore durante l'aggiornamento dell'avatar.");
+    }
+  };
 
   useEffect(() => {
     const allFavorites = async () => {
@@ -52,31 +70,80 @@ const uploadAvatar = async () => {
 
   return (
     <>
-      <h1>{userInfo?.name}</h1>
-      <h2>{userInfo?.surname}</h2>
-      <img className="avatarProfile" src={userInfo?.avatar}></img>
+      <Container className="profileContainer mt-5">
+        <div className="d-flex justify-content-center">
+          <h1 className="nameProfile">{userInfo?.name} </h1>
+          <h1 className="surnameProfile"> {userInfo?.surname}</h1>
+        </div>
+        <div className="d-flex justify-content-center mb-4">
+          <Image
+            className="avatarProfile"
+            src={userInfo?.avatar}
+            roundedCircle
+          />
+        </div>
+        <div className="changeAvatar text-center">
+          <input type="file" onChange={handleChangeAvatar} />
+          <Button className="mt-2" onClick={uploadAvatar}>
+            Cambia immagine del profilo
+          </Button>
+        </div>
 
-      <input type="file" onChange={handleChangeAvatar} />
-      <Button onClick={uploadAvatar}>upload</Button>
-      <h3>{userInfo?.role}</h3>
-      <h3>{userInfo?.email}</h3>
+        {alertMessage && (
+          <Alert
+            className="mt-4"
+            variant="info"
+            onClose={() => setAlertMessage("")}
+            dismissible
+          >
+            {alertMessage}
+          </Alert>
+        )}
 
-      {favorites.map((favorite, i) => (
-        <Container key={i}>
-          <Row>
-            <Col md={12}>
-              <Link to = {`/trekkingRoutes/${favorite.trekkingRoute._id}`}>
-                <h1>{favorite.trekkingRoute.name}</h1>
-                <Image src={favorite.trekkingRoute.images[3]}></Image>
-                <h3>{favorite.difficulty}</h3>
-                <h3>{favorite.length}</h3>
-                <h3>{favorite.description}</h3>
-              </Link>
-              <Button onClick={() => handleDeleteFavorite(favorite.trekkingRoute._id)}>elimina</Button>
-            </Col>
-          </Row>
-        </Container>
-      ))}
+        <h2 className="mt-5">
+          <FaHeart /> Preferiti
+        </h2>
+        {favorites.length > 0 ? (
+          favorites.map((favorite, i) => (
+            <Card className="favoriteContainer mb-3" key={i}>
+              <Card.Body>
+                <Row>
+                  <Col md={8}>
+                    <Link
+                      to={`/trekkingRoutes/${favorite.trekkingRoute._id}`}
+                      className="text-decoration-none text-dark"
+                    >
+                      <Card.Title>{favorite.trekkingRoute.name}</Card.Title>
+                      <Image  src={favorite.trekkingRoute.images[3]} fluid />
+                      <Card.Subtitle className="mt-2">
+                        Difficoltà: {favorite.trekkingRoute.difficulty}
+                      </Card.Subtitle>
+                      <Card.Subtitle className="mt-1">
+                        Lunghezza: {favorite.trekkingRoute.distance} km
+                      </Card.Subtitle>
+                      <Card.Text className="mt-1">
+                        {favorite.description}
+                      </Card.Text>
+                    </Link>
+                  </Col>
+                  <Col md={4} className="d-flex align-items-center">
+                    <Button
+                      variant="danger"
+                      onClick={() =>
+                        handleDeleteFavorite(favorite.trekkingRoute._id)
+                      }
+                    >
+                     <MdDelete /> Elimina
+                    </Button>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          ))
+        ) : (
+          <Alert variant="warning">Nessun preferito trovato.</Alert>
+        )}
+      </Container>
     </>
   );
 };

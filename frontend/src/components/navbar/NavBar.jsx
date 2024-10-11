@@ -8,6 +8,7 @@ import { IoHome } from "react-icons/io5";
 import { CiSquarePlus } from "react-icons/ci";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { AiOutlineLogout } from "react-icons/ai";
+import { IoLogIn } from "react-icons/io5";
 const NavBar = () => {
   const { token, setToken } = useContext(UserContext);
   const [logOut, setLogOut] = useState(false);
@@ -16,8 +17,8 @@ const NavBar = () => {
     navigate("/");
   };
 
-  const registerClick = () => {
-    navigate("/registerLogin");
+  const loginClick = () => {
+    navigate("/login");
   };
 
   const createRouteClick = () => {
@@ -36,7 +37,6 @@ const NavBar = () => {
     localStorage.removeItem("token");
     setToken(null);
     setLogOut(true);
-    alert("Sei uscito");
     navigate("/");
   };
   return (
@@ -95,7 +95,7 @@ const NavBar = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
-              {!token && <Nav.Link onClick={registerClick}>Accedi</Nav.Link>}
+              {!token && <Nav.Link onClick={loginClick}><IoLogIn className="navIcons" /> Accedi</Nav.Link>}
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -25,6 +25,7 @@ const SingleRoute = (props) => {
 
   const { userInfo } = useContext(UserContext);
   const [message, setMessage] = useState("");
+  const {token} = useContext(UserContext)
 
   const handleAddFavorite = async () => {
     try {
@@ -61,15 +62,14 @@ const SingleRoute = (props) => {
           </span>
           <span>
             <b>
-              {" "}
               <FaArrowUp />
               <FaArrowDown />
               {heightDifference} m
             </b>
           </span>
-          <button className="buttonSave" onClick={handleAddFavorite}>
+          {token &&<button className="buttonSave" onClick={handleAddFavorite}>
           <FaBookmark /> <b>Salva</b> <span className="message">{message}</span>
-          </button>
+          </button>}
         </div>
 
         <div className="mt-3">

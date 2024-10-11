@@ -1,6 +1,35 @@
-.avatarProfile{
-   width: 10em;
-   height:10rem;
-   border-radius: 50%;
-   object-fit:cover;
-}
+.profileContainer {
+   background-color: #f8f9fa; 
+   border-radius: 10px;
+   padding: 20px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .titleProfile {
+   color: #343a40; 
+ }
+ 
+ .avatarProfile {
+   width: 150px;
+   height: 150px;
+   object-fit: cover; 
+   border: 3px solid #93B26D; 
+ }
+ 
+ .favoriteContainer {
+   border: 1px solid #ced4da; 
+   border-radius: 10px;
+   background-color: white;
+ }
+ 
+ .favoriteContainer h1 {
+   font-size: 1.5rem;
+ }
+ 
+ .favoriteContainer img {
+   max-height: 10rem;
+ }
+ 
+ .nameProfile {
+   margin-right: 1rem;
+ }

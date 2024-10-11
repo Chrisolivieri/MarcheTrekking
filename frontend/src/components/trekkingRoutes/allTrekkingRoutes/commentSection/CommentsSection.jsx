@@ -9,7 +9,11 @@ import { Col, Container, Row, Modal, Button } from "react-bootstrap";
 import { UserContext } from "../../../../context/UserContextProvider";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import "./CommentsSection.css"
+import { CiEdit } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
+import { TiDelete } from "react-icons/ti";
+import { IoIosSend } from "react-icons/io";
+import "./CommentsSection.css";
 
 const CommentsSection = () => {
   const [comments, setComments] = useState([]);
@@ -53,6 +57,7 @@ const CommentsSection = () => {
       const commentsRes = await loadComments(params.id);
       setComments(commentsRes.data);
       setFormValue(initialFormState);
+      console.log(initialFormState);
       handleClose();
     } catch (error) {
       console.log("Errore: ", error);
@@ -76,11 +81,9 @@ const CommentsSection = () => {
   };
 
   const confirmDeleteComment = async () => {
-    
     try {
       if (commentDelete) {
-        const response = await deleteComment(id,commentDelete);
-       
+        const response = await deleteComment(id, commentDelete);
 
         const commentsRes = await loadComments(params.id);
         setComments(commentsRes.data);
@@ -94,6 +97,7 @@ const CommentsSection = () => {
 
   useEffect(() => {
     const fetchComments = async () => {
+      // window.scrollTo(0, 0);
       try {
         const response = await loadComments(params.id);
         if (response) {
@@ -118,9 +122,11 @@ const CommentsSection = () => {
     return <p>Loading...</p>;
   } else {
     return (
-      <Container>
+      <Container className="commentSection">
         <Row>
-          <h3 className="mt-5">Sezione Commenti</h3>
+          <h5 className="mt-5">
+            {comments.length} {comments.length === 1 ? "Commento" : "Commenti"}
+          </h5>
           <div className="comments">
             {comments.map((comment, i) => (
               <Col
@@ -129,49 +135,47 @@ const CommentsSection = () => {
                 className="mb-3"
                 style={{ marginBottom: 20 }}
               >
-                <Container>
-                  <Row>
-                    <Col>
-                      <div className="d-flex">
-                        <h3>{comment.content}</h3>
-                        {comment.user ? (
-                          <div>
-                            <p>{"Commento di " + comment.user.name}</p>
-                            <img className="avatarComment" src={comment.user.avatar} alt="" />
-
-                            {comment.user &&
-                              comment.user._id === decodedToken?.id && (
-                                <>
-                                  <button
-                                    style={{
-                                      cursor: "pointer",
-                                      marginLeft: 10,
-                                    }}
-                                    onClick={() => handleEditComment(comment)}
-                                  >
-                                    modifica
-                                  </button>
-                                  <button
-                                    style={{
-                                      cursor: "pointer",
-                                      marginLeft: 10,
-                                    }}
-                                    onClick={() =>
-                                      handleShowConfirmModal(comment._id)
-                                    }
-                                  >
-                                    elimina
-                                  </button>
-                                </>
-                              )}
-                          </div>
-                        ) : (
-                          <p>Commento anonimo</p>
-                        )}
+                <Col md={12}>
+                  <div className="singleComment">
+                    <div className="d-flex">
+                      <img
+                        className="avatarComment"
+                        src={comment.user?.avatar}
+                        alt=""
+                      />
+                      <div className="d-flex flex-column commentContent">
+                        <h5 className="userNameComment">
+                          {comment.user?.name || "Anonimo"}
+                        </h5>
+                        <p>{comment.content}</p>
                       </div>
-                    </Col>
-                  </Row>
-                </Container>
+                    </div>
+                    {comment.user ? (
+                      <div>
+                        {comment.user &&
+                          comment.user._id === decodedToken?.id && (
+                            <>
+                              <button
+                                
+                                onClick={() => handleEditComment(comment)}
+                                className="editComment"
+                              >
+                                <CiEdit /> Modifica
+                              </button>
+                              <button
+                                className="deleteComment"
+                                onClick={() =>
+                                  handleShowConfirmModal(comment._id)
+                                }
+                              >
+                                <MdDelete /> Elimina
+                              </button>
+                            </>
+                          )}
+                      </div>
+                    ) : null}
+                  </div>
+                </Col>
               </Col>
             ))}
           </div>
@@ -185,10 +189,10 @@ const CommentsSection = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseConfirmModal}>
-                Annulla
+                <TiDelete /> Annulla
               </Button>
               <Button variant="danger" onClick={confirmDeleteComment}>
-                Elimina
+                <MdDelete /> Elimina
               </Button>
             </Modal.Footer>
           </Modal>
@@ -198,22 +202,23 @@ const CommentsSection = () => {
           <div className="form">
             <div className="row">
               <div className="input-div">
-                <button
-                  className="cancel-btn"
+                <Button
+                  variant="secondary"
+                  className="mb-1"
                   onClick={handleClose}
                   type="button"
                 >
-                  Annulla
-                </button>
+                  <TiDelete /> Annulla
+                </Button>
               </div>
             </div>
           </div>
         )}
 
         {token ? (
-          <div className="form">
-            <div className="row">
-              <div className="input-div">
+          <>
+            <div className="d-flex align-items-center">
+              <div className="text-area">
                 <textarea
                   rows="2"
                   className="input-box"
@@ -224,18 +229,20 @@ const CommentsSection = () => {
                 />
               </div>
               <div className="btn-div">
-                <button
+                <Button
                   className="post-btn"
                   onClick={handleSaveComment}
                   type="button"
                 >
-                  Post
-                </button>
+                 <IoIosSend /> Post
+                </Button>
               </div>
             </div>
-          </div>
+          </>
         ) : (
-          <div>Accedi per lasciare un commento.</div>
+          <div className="text-center m-5">
+            <p>Accedi per lasciare un commento</p>
+          </div>
         )}
       </Container>
     );
