@@ -128,6 +128,7 @@ const MyProfile = () => {
                   </Col>
                   <Col md={4} className="d-flex align-items-center">
                     <Button
+                    size="sm"
                       variant="danger"
                       onClick={() =>
                         handleDeleteFavorite(favorite.trekkingRoute._id)

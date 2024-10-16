@@ -135,7 +135,7 @@ const AllTrekkingRoutes = () => {
             </form>
           </Col>
           {isLoading ? (
-            <Spinner className="spinner" />
+            <div className="d-flex align-items-center justify-content-center"><Spinner className="spinner" /></div>
           ) : (
             <Col className="col2" md={9}>
               {filteredRoutes.length > 0 ? (

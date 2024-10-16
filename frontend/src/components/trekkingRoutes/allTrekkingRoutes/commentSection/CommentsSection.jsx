@@ -155,21 +155,21 @@ const CommentsSection = () => {
                         {comment.user &&
                           comment.user._id === decodedToken?.id && (
                             <>
-                              <button
+                              <Button size="sm"
                                 
                                 onClick={() => handleEditComment(comment)}
                                 className="editComment"
                               >
                                 <CiEdit /> Modifica
-                              </button>
-                              <button
+                              </Button>
+                              <Button size="sm"
                                 className="deleteComment"
                                 onClick={() =>
                                   handleShowConfirmModal(comment._id)
                                 }
                               >
                                 <MdDelete /> Elimina
-                              </button>
+                              </Button>
                             </>
                           )}
                       </div>
