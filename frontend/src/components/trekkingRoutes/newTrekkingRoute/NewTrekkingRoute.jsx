@@ -20,6 +20,7 @@ const NewTrekkingRoute = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [alertVariant, setAlertVariant] = useState("");
+  const [newCoordinatesInput, setNewCoordinatesInput] = useState("");
 
   const handleChangeFormValue = (event) => {
     setFormValue({
@@ -34,22 +35,25 @@ const NewTrekkingRoute = () => {
     setImages(imageFiles);
   };
 
-  const handleAddCoordinate = () => {
-    const newCoordinate = prompt("Inserisci una coppia di coordinate lat,lng:");
-    if (newCoordinate) {
-      const [lat, lng] = newCoordinate
-        .split(",")
-        .map((coord) => parseFloat(coord.trim()));
+  const handleAddMultipleCoordinates = () => {
+    const coordinatesArray = newCoordinatesInput.split(";").map(coord => coord.trim());
+    const validCoordinates = [];
+
+    coordinatesArray.forEach(coord => {
+      const [lat, lng] = coord.split(",").map(coord => parseFloat(coord.trim()));
       if (!isNaN(lat) && !isNaN(lng)) {
-        setFormValue((prev) => ({
-          ...prev,
-          coordinates: [...prev.coordinates, [lat, lng]],
-        }));
+        validCoordinates.push([lat, lng]);
       } else {
-        setMessage(
-          "Formato delle coordinate non valido. Usa il formato: numero,numero"
-        );
+        setMessage("Inserisci coordinate valide.");
       }
+    });
+
+    if (validCoordinates.length > 0) {
+      setFormValue(prev => ({
+        ...prev,
+        coordinates: [...prev.coordinates, ...validCoordinates],
+      }));
+      setNewCoordinatesInput(""); 
     }
   };
 
@@ -240,10 +244,16 @@ const NewTrekkingRoute = () => {
 
             <Form.Group className="mt-3">
               <Form.Label>Coordinate del sentiero</Form.Label>
+              <Form.Control
+                type="text"
+                value={newCoordinatesInput}
+                onChange={(e) => setNewCoordinatesInput(e.target.value)}
+                placeholder="Inserisci coordinate (lat,lng; lat,lng)"
+              />
               <Button
-                onClick={handleAddCoordinate}
+                onClick={handleAddMultipleCoordinates}
                 variant="secondary"
-                className="mx-2"
+                className="mx-2 mt-2"
               >
                 Aggiungi Coordinate
               </Button>
@@ -265,10 +275,9 @@ const NewTrekkingRoute = () => {
           </Col>
         </Row>
 
-        {/* Pulsante in fondo */}
         <Row className="mt-4">
           <Col>
-            <Button type="submit" size="lg" variant="success" disabled={loading}>
+            <Button onClick={handleSubmit} type="submit" size="lg" variant="success" disabled={loading}>
               {loading ? <Spinner animation="border" size="sm" /> : "Invia"}
             </Button>
           </Col>
