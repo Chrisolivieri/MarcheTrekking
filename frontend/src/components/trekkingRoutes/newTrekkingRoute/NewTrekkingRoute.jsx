@@ -43,9 +43,7 @@ const NewTrekkingRoute = () => {
       const [lat, lng] = coord.split(",").map(coord => parseFloat(coord.trim()));
       if (!isNaN(lat) && !isNaN(lng)) {
         validCoordinates.push([lat, lng]);
-      } else {
-        setMessage("Inserisci coordinate valide.");
-      }
+      } 
     });
 
     if (validCoordinates.length > 0) {

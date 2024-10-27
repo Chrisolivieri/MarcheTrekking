@@ -17,6 +17,7 @@ const AllTrekkingRoutes = () => {
   const [searchQuery2, setSearchQuery2] = useState("");
   const [searchQuery3, setSearchQuery3] = useState("");
   const [searchQuery4, setSearchQuery4] = useState("");
+  
 
   useEffect(() => {
     window.scrollTo(0, 0); 
@@ -33,7 +34,7 @@ const AllTrekkingRoutes = () => {
     fetchTrekkingRoutes();
   }, [page]);
 
-  const loadMoreRoutes = () => {
+  const loadMoreRoutes = async () => {
     setPage((prevPage) => prevPage + 1);
   };
 
@@ -155,7 +156,7 @@ const AllTrekkingRoutes = () => {
           )}
         </Row>
       </Container>
-      {trekkingRoutes.length < 11 && (
+      {trekkingRoutes.length < 13 && (
         <Container className="text-center">
           <Button className="loadMoreButton" onClick={loadMoreRoutes}>
             Carica più percorsi
