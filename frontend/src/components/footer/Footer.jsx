@@ -33,7 +33,7 @@ const Footer = () => {
             <h4>Link veloci</h4>
             <ul>
               <li>
-                <a href="#">Home</a>
+                <a href="/">Home</a>
               </li>
               <li>
                 <a href="#">About</a>

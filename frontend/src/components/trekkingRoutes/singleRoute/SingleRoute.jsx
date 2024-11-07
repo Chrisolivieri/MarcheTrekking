@@ -25,7 +25,7 @@ const SingleRoute = (props) => {
 
   const { userInfo } = useContext(UserContext);
   const [message, setMessage] = useState("");
-  const {token} = useContext(UserContext)
+  const { token } = useContext(UserContext);
 
   const handleAddFavorite = async () => {
     try {
@@ -54,22 +54,22 @@ const SingleRoute = (props) => {
 
         <div className="infoCard">
           <span>
-            <CiClock1 /> <b>{duration} ore</b>
+            <CiClock1 /> {duration} ore
           </span>
           <span>
             <GiPathDistance />
-            <b> {distance} km circa</b>
+            {distance} km circa
           </span>
           <span>
-            <b>
-              <FaArrowUp />
-              <FaArrowDown />
-              {heightDifference} m
-            </b>
+            <FaArrowUp />
+            <FaArrowDown />
+            {heightDifference} m
           </span>
-          {token &&<button className="buttonSave" onClick={handleAddFavorite}>
-          <FaBookmark /> <b>Salva</b> <span className="message">{message}</span>
-          </button>}
+          {token && (
+            <button className="buttonSave" onClick={handleAddFavorite}>
+              <FaBookmark /> Salva <span className="message">{message}</span>
+            </button>
+          )}
         </div>
 
         <div className="mt-3">
@@ -77,7 +77,6 @@ const SingleRoute = (props) => {
         </div>
 
         <Card.Body className="d-flex justify-content-around">
-          
           <span>
             <b>
               Difficoltà: <span className="difficulty">{difficulty}</span>

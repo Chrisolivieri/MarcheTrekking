@@ -3,7 +3,7 @@ import { addFavorite, loadTrekkingRoute } from "../../../../data/Fetch.js";
 import { useParams } from "react-router-dom";
 import "./routeDetails.css";
 import Map from "../../map/Map.jsx";
-import { Card, Container, Spinner } from "react-bootstrap";
+import { Card, Col, Container, Row, Spinner } from "react-bootstrap";
 import CommentsSection from "../commentSection/CommentsSection.jsx";
 import { UserContext } from "../../../../context/UserContextProvider.jsx";
 import Carousel from "react-bootstrap/Carousel";
@@ -12,14 +12,14 @@ import { GiPathDistance } from "react-icons/gi";
 import { FaArrowUp } from "react-icons/fa";
 import { FaArrowDown } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
+import Weather from "../../weather/Weather.jsx";
 
 const RouteDetails = () => {
   const params = useParams();
   const [route, setRoute] = useState({});
   const { userInfo } = useContext(UserContext);
-  const {token} =useContext(UserContext);
+  const { token } = useContext(UserContext);
   const [message, setMessage] = useState("");
-
 
   useEffect(() => {
     const details = async () => {
@@ -89,30 +89,42 @@ const RouteDetails = () => {
 
             <div className="infoCard2">
               <span>
-              <CiClock1 /> <b>{route.duration} ore</b>
+                <CiClock1 /> {route.duration} ore
               </span>
               <span>
-              <GiPathDistance />
-              <b> {route.distance} km circa</b>
+                <GiPathDistance />
+                 {route.distance} km circa
               </span>
               <span>
-              <FaArrowUp />
-              <FaArrowDown /> <b>{route.heightDifference} m</b>
+                <FaArrowUp />
+                <FaArrowDown /> {route.heightDifference} m
               </span>
-              {token &&<button className="buttonSave" onClick={handleAddFavorite}>
-          <FaBookmark /> <b>Salva</b> <span className="message">{message}</span>
-          </button>}
+              {token && (
+                <button className="buttonSave" onClick={handleAddFavorite}>
+                  <FaBookmark /> Salva{" "}
+                  <span className="message">{message}</span>
+                </button>
+              )}
             </div>
-            <Map
-              start={route.start}
-              end={route.end}
-              coordinates={route.coordinates}
-            />
+            
+              <Container>
+                <Row>
+                  <Col md={7}>
+                    <Map
+                      start={route.start}
+                      end={route.end}
+                      coordinates={route.coordinates}
+                    />
+                  </Col>
+                  <Col md={5}><Weather start={route.start} /></Col>
+                </Row>
+              </Container>
+            
           </>
         ) : (
           <p>Loading map...</p>
         )}
-        
+
         <CommentsSection />
       </Container>
     </>

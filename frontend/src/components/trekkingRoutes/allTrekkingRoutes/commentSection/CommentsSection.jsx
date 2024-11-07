@@ -7,7 +7,7 @@ import {
 } from "../../../../data/Fetch";
 import { Col, Container, Row, Modal, Button } from "react-bootstrap";
 import { UserContext } from "../../../../context/UserContextProvider";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
@@ -241,7 +241,7 @@ const CommentsSection = () => {
           </>
         ) : (
           <div className="text-center m-5">
-            <p>Accedi per lasciare un commento</p>
+            <p><Link to="/login">Accedi</Link> per lasciare un commento</p>
           </div>
         )}
       </Container>

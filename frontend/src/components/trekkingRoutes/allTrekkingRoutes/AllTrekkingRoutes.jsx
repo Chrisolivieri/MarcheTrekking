@@ -5,7 +5,6 @@ import SingleRoute from "../singleRoute/SingleRoute";
 import { CgDanger } from "react-icons/cg";
 import { GiPathDistance } from "react-icons/gi";
 import { CiClock1 } from "react-icons/ci";
-import { GiMountainRoad } from "react-icons/gi";
 
 import "./AllTrekkingRoutes.css";
 
@@ -17,11 +16,10 @@ const AllTrekkingRoutes = () => {
   const [searchQuery2, setSearchQuery2] = useState("");
   const [searchQuery3, setSearchQuery3] = useState("");
   const [searchQuery4, setSearchQuery4] = useState("");
-  
 
   useEffect(() => {
-    window.scrollTo(0, 0); 
-  }, []); 
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const fetchTrekkingRoutes = async () => {
@@ -63,10 +61,28 @@ const AllTrekkingRoutes = () => {
 
   return (
     <>
-      <h1 className="trekkingTitle">
-        <GiMountainRoad /> I nostri percorsi
-      </h1>
       <Container>
+        <p className="trekkingTitle">
+          Le Marche, una regione che unisce paesaggi mozzafiato e natura
+          incontaminata, sono un vero paradiso per gli amanti del trekking.
+          <tr /> Tra montagne imponenti, colline dolcemente ondulate e
+          suggestive coste marine, i sentieri delle Marche offrono esperienze
+          indimenticabili per tutti i livelli di escursionisti.
+          <tr /> Dai cammini più tranquilli e panoramici, perfetti per famiglie
+          e principianti, alle sfide più impegnative tra le cime degli
+          Appennini, ogni percorso racconta una storia unica, fatta di
+          tradizioni, storia e biodiversità. <tr />
+          Esplora il fascino del Parco Nazionale dei Monti Sibillini, dove
+          leggende e misteri si intrecciano con la bellezza dei paesaggi
+          montani, o avventurati tra le Gole della Rossa e di Frasassi per
+          un'esperienza immersiva nella natura più selvaggia.
+          <tr /> I trekking costieri, come quelli sul Monte Conero, regalano
+          panorami spettacolari che spaziano tra il verde della macchia
+          mediterranea e l’azzurro cristallino dell’ Adriatico.
+          <tr />
+          Ogni passo è un’occasione per scoprire panorami incredibili,
+          affascinanti borghi medievali e angoli di incontaminata bellezza.
+        </p>
         <Row>
           <Col className="colSticky" md={3}>
             <h6 className="text-center">Filtri</h6>
@@ -136,7 +152,9 @@ const AllTrekkingRoutes = () => {
             </form>
           </Col>
           {isLoading ? (
-            <div className="d-flex align-items-center justify-content-center"><Spinner className="spinner" /></div>
+            <div className="d-flex align-items-center justify-content-center">
+              <Spinner className="spinner" />
+            </div>
           ) : (
             <Col className="col2" md={9}>
               {filteredRoutes.length > 0 ? (
