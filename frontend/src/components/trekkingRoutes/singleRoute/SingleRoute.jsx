@@ -91,7 +91,7 @@ const SingleRoute = (props) => {
         <hr className="hr" />
 
         <Card.Body className="text-center">
-          <Link to={`/trekkingRoutes/${_id}`} target="_blank">
+          <Link to={`/trekkingRoutes/${_id}`}>
             <button className="buttonDetails">
               Dettagli <FaAngleRight />
             </button>
