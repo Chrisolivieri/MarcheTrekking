@@ -29,6 +29,9 @@ The platform offers detailed information on hiking trails, maps, and useful tips
 
 • Hosting: The site is hosted at https://marche-trekking.vercel.app/ (please allow a few minutes for the server to load).
 
+• Weather condition
+
+
 ###
 
 
@@ -50,6 +53,8 @@ La piattaforma offre informazioni dettagliate su percorsi escursionistici, mappe
 • Preferiti: Se si è autenticati, si possono aggiungere i propri percorsi preferiti tramite il tasto dedicato e visualizzabili nell'apposita sezione
 
 • Creazione percorsi: Se si possiede un account "admin" è possibile creare un nuovo percorso con form appositi (nome, lunghezza, difficoltà, coordinate ecc.)
+
+• Meteo dell'area consultabile
 
 # Tecnologie utilizzate
 
